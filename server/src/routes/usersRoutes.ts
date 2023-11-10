@@ -1,5 +1,6 @@
 import express from 'express'
 import UsersController from '../controllers/usersController.js'
+import UserApproachesController from '../controllers/userApproachesController.js'
 import {
   validateCreateUser,
   validateUpdateUser,
@@ -13,5 +14,7 @@ router.get('/:userId', UsersController.findOneUser)
 router.post('/', validateCreateUser, UsersController.createNewUser)
 router.delete('/:userId', UsersController.deleteUser)
 router.put('/:userId', validateUpdateUser, UsersController.updateUser)
+
+router.post("/approach", UserApproachesController.createUserApproach)
 
 export default router

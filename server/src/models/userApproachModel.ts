@@ -10,6 +10,9 @@ const userApproachSchema = new Schema({
     enum : ['not_started', 'in_process','completed'],
     default: 'not_started'
 }
+},
+{
+  versionKey: false
 })
 
-export default mongoose.model('Approach', userApproachSchema)
+export default mongoose.model('UserApproach', userApproachSchema)
