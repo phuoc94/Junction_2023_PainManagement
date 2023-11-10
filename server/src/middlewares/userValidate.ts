@@ -49,3 +49,33 @@ export async function validateUpdateUser(
     next(ApiError.badRequest('Bad request.', errorMessages.join(' ')))
   }
 }
+
+export async function validateEmail(
+  req: Request,
+  _: Response,
+  next: NextFunction
+): Promise<void> {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  // Test the email against the regex
+  const email = req.body.email
+
+  if (!emailRegex.test(email)) {
+    next(ApiError.badRequest('Email is not valid! Please enter again!'))
+  }
+  next()
+}
+
+export async function validateEmailAndPasswordExists(
+  req: Request,
+  _: Response,
+  next: NextFunction
+): Promise<void> {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  if (email.length === 0 || password.length === 0) {
+    next(ApiError.badRequest('Email or password is not given! Please enter again!'))
+  }
+
+  next()
+}

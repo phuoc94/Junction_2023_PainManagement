@@ -3,12 +3,6 @@ import type { NextFunction, Request, Response } from 'express'
 import UsersServices from '../services/usersServices.js'
 import { ApiError } from '../utils/ApiError.js'
 
-export async function findAllUsers(_: Request, res: Response): Promise<void> {
-  const users = await UsersServices.findAll()
-
-  res.json(users)
-}
-
 export async function findOneUser(
   req: Request,
   res: Response,
@@ -26,22 +20,6 @@ export async function findOneUser(
     return
   }
   res.json(user)
-}
-
-export async function createNewUser(
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> {
-  const newUser = req.body
-  const user = await UsersServices.createUser(newUser)
-  if (user === null) {
-    next(
-      ApiError.badRequest('Email is not available, please insert another one')
-    )
-    return
-  }
-  res.status(201).json(user)
 }
 
 export async function deleteUser(
@@ -84,8 +62,6 @@ export async function updateUser(
 
 export default {
   findOneUser,
-  findAllUsers,
-  createNewUser,
   deleteUser,
   updateUser,
 }
