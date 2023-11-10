@@ -4,31 +4,12 @@ import { type UserUpdate, type User } from '../types/User.js'
 import UserRepo from '../models/userModel.js'
 import UserApproachRepo from '../models/userApproachModel.js'
 
-async function findAll(): Promise<User[]> {
-  const users = await UserRepo.find().exec()
-  return users as User[]
-}
-
 async function findOne(userId: string): Promise<User | Error | null> {
   try {
     const id = new mongoose.Types.ObjectId(userId)
     const user = await UserRepo.findById(id)
 
     return user as User | null
-  } catch (e) {
-    const error = e as Error
-    return error
-  }
-}
-
-async function createUser(newUser: User): Promise<User | Error | null> {
-  try {
-    const isAvailable = await UserRepo.exists({ email: newUser.email })
-    if (isAvailable === null) {
-      const user = await UserRepo.create(newUser)
-      return user as User
-    }
-    return null
   } catch (e) {
     const error = e as Error
     return error
@@ -78,8 +59,6 @@ async function createUserApproach(user: string, approach: string) {
 
 export default {
   findOne,
-  findAll,
-  createUser,
   deleteUser,
   updateUser,
   createUserApproach

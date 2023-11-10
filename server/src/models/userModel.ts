@@ -3,11 +3,9 @@ import mongoose from 'mongoose'
 const { Schema } = mongoose
 
 const userSchema = new Schema({
-  firstName: String,
-  lastName: String,
+  name: String,
   email: String,
-  address: String,
-  phoneNumber: String,
+  password: String,
   role: { type: String, enum: ['admin', 'user'], default: 'user' },
 })
 
