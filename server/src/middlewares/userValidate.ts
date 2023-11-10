@@ -50,7 +50,7 @@ export async function validateUpdateUser(
   }
 }
 
-export async function validateEmail(
+export async function validateEmailOrRequestNotEmptyInRegister(
   req: Request,
   _: Response,
   next: NextFunction
@@ -58,10 +58,17 @@ export async function validateEmail(
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   // Test the email against the regex
   const email = req.body.email
+  const name = req.body.name;
+  const password = req.body.password;
+
+  if (email.length === 0 || password.length === 0 || name.length === 0) {
+    next(ApiError.badRequest('Email or password or name is not given! Please enter again!'))
+  }
 
   if (!emailRegex.test(email)) {
     next(ApiError.badRequest('Email is not valid! Please enter again!'))
   }
+
   next()
 }
 
