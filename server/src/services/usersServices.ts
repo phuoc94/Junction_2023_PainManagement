@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 
 import { type UserUpdate, type User } from '../types/User.js'
 import UserRepo from '../models/userModel.js'
+import UserApproachRepo from '../models/userApproachModel.js'
 
 async function findAll(): Promise<User[]> {
   const users = await UserRepo.find().exec()
@@ -62,10 +63,24 @@ async function updateUser(
   }
 }
 
+async function createUserApproach(user: string, approach: string) {
+  try {
+    const userId = new mongoose.Types.ObjectId(user)
+    const approachId = new mongoose.Types.ObjectId(approach)
+    const newUserApproach = new UserApproachRepo({ userId, approachId, status: "in_process" })
+    await newUserApproach.save()
+    return newUserApproach
+  } catch (e) {
+    const error = e as Error
+    return error
+  }
+}
+
 export default {
   findOne,
   findAll,
   createUser,
   deleteUser,
   updateUser,
+  createUserApproach
 }
