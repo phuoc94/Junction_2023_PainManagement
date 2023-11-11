@@ -1,7 +1,9 @@
 import jwt from "jsonwebtoken";
 import { decodeType } from "../types/response/DecodeType.js";
 
-const JWT_SECRET = String(process.env.JWT_SECRET)
+import dotenv from 'dotenv'
+dotenv.config()
+const JWT_SECRET = String(process.env.JWT_SECRET);
 
 function decodeTokenToGetId (token: string) : decodeType {
 

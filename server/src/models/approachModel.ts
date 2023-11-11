@@ -7,10 +7,13 @@ const approachSchema = new Schema({
   description: String,
   instructions: String,
   painId: mongoose.Types.ObjectId,
-  details: [{
-    name: String,
-    description: String
-  }]
+  details: [
+    {
+      name: String,
+      description: String,
+    },
+  ],
+  achievement: { type: Schema.Types.ObjectId, ref: 'Achievement' },
 })
 
 export default mongoose.model('Approach', approachSchema)
