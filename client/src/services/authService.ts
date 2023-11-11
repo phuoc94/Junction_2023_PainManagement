@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 
 const baseUrl = "http://localhost:3000/api/v1/auth";
 
+// Types should be extracted to separate file
 type AuthBase = {
   email: string,
   password: string,
@@ -21,7 +22,7 @@ const signUp = async (values: SignUpRequest) => {
 const login = async (values: LoginRequest) => {
   try {
     const { data } = await axios.post<LoginRequest, AxiosResponse<LoginResponse>>(`${baseUrl}/login`, values);
-    console.log(data);
+    console.log("Login success, response data:", data); // Remove this console after you understand the data structure.
     localStorage.setItem("tokenId", data.tokenId);
     // You can also store the name and email to global context or redux so you can use it for the profile page
   } catch (e: unknown) {
