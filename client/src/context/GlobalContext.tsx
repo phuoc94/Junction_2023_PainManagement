@@ -1,27 +1,27 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import AppLoader from "../components/AppLoader";
-import axios from "axios";
-import { GlobalContextStates } from "../@types/global";
+import React, { createContext, useContext, useEffect, useState } from 'react'
+
+import { GlobalContextStates } from '../@types/global'
+import AppLoader from '../components/AppLoader'
 
 // initial state
 const initialState: GlobalContextStates = {
   user: null,
   logout: () => {},
-};
+}
 
-const GlobalContext = createContext(initialState);
+const GlobalContext = createContext(initialState)
 
 function GlobalContextProvider({ children }: React.PropsWithChildren) {
-  const [user, setUser] = useState();
-  const [loading, setLoading] = useState(true);
+  const [user] = useState()
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      fetchCurrentUser();
+    if (localStorage.getItem('token')) {
+      fetchCurrentUser()
     } else {
-      setLoading(false);
+      setLoading(false)
     }
-  }, []);
+  }, [])
 
   const fetchCurrentUser = async () => {
     try {
@@ -31,25 +31,25 @@ function GlobalContextProvider({ children }: React.PropsWithChildren) {
       //     },
       //   });
       //   setUser(response.data);
-      setLoading(false);
+      setLoading(false)
     } catch (error) {
-      logout();
+      logout()
     }
-  };
+  }
 
   const logout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/login";
-  };
+    localStorage.removeItem('token')
+    window.location.href = '/login'
+  }
 
-  if (loading) return <AppLoader />;
+  if (loading) return <AppLoader />
   return (
     <GlobalContext.Provider value={{ user, logout }}>
       {children}
     </GlobalContext.Provider>
-  );
+  )
 }
 
-export const useGlobalContext = () => useContext(GlobalContext);
+export const useGlobalContext = () => useContext(GlobalContext)
 
-export default GlobalContextProvider;
+export default GlobalContextProvider

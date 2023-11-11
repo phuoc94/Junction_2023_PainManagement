@@ -1,14 +1,11 @@
-import React from "react";
-
-// MUI
-import { Box, Grid, IconButton, Typography } from "@mui/material";
-
+import FacebookIcon from '@mui/icons-material/Facebook'
+import InstagramIcon from '@mui/icons-material/Instagram'
 // icons
-import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import YouTubeIcon from "@mui/icons-material/YouTube";
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
+import TwitterIcon from '@mui/icons-material/Twitter'
+import YouTubeIcon from '@mui/icons-material/YouTube'
+// MUI
+import { Box, Grid, IconButton, Typography } from '@mui/material'
 
 function Footer() {
   return (
@@ -17,11 +14,11 @@ function Footer() {
         container
         spacing={3}
         columns={12}
-        bgcolor={"background.neutral"}
+        bgcolor={'background.neutral'}
         color="text.primary"
         justifyContent="space-between"
-        padding={"2rem 2rem"}
-        marginTop={"4rem"}
+        padding={'2rem 2rem'}
+        marginTop={'4rem'}
       >
         <Grid item xs={12} sm={12} md={6}>
           <Grid
@@ -61,13 +58,13 @@ function Footer() {
         <Grid item xs={12} sm={12} md={6}>
           <Box
             sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "1rem",
-              alignItems: { sm: "center", md: "flex-end" },
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1rem',
+              alignItems: { sm: 'center', md: 'flex-end' },
             }}
           >
-            <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
               <IconButton color="inherit">
                 <FacebookIcon />
               </IconButton>
@@ -81,8 +78,8 @@ function Footer() {
                 <YouTubeIcon />
               </IconButton>
             </Box>
-            <Box sx={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-              <LocationOnOutlinedIcon />{" "}
+            <Box sx={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+              <LocationOnOutlinedIcon />{' '}
               <Typography variant="h6">Helsinki, Finland</Typography>
             </Box>
             <Box>
@@ -94,7 +91,7 @@ function Footer() {
         </Grid>
       </Grid>
     </>
-  );
+  )
 }
 
-export default Footer;
+export default Footer

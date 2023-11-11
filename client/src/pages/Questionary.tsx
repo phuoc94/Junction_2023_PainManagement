@@ -1,51 +1,50 @@
-import React from "react";
 import {
-  Container,
-  Card,
   Box,
+  Button,
+  Card,
+  Container,
+  MenuItem,
   TextField,
   Typography,
-  Button,
-  MenuItem,
-} from "@mui/material";
+} from '@mui/material'
 
 const currencies = [
   {
-    value: "Body Pain",
-    label: "Body Pain",
+    value: 'Body Pain',
+    label: 'Body Pain',
   },
   {
-    value: "Arthritis, or joint pain",
-    label: "Arthritis, or joint pain",
+    value: 'Arthritis, or joint pain',
+    label: 'Arthritis, or joint pain',
   },
   {
-    value: "Neck pain.",
-    label: "Neck pain.",
+    value: 'Neck pain.',
+    label: 'Neck pain.',
   },
   {
-    value: "Headaches, including migraines.",
-    label: "Headaches, including migraines.",
+    value: 'Headaches, including migraines.',
+    label: 'Headaches, including migraines.',
   },
-];
+]
 
 function Questionary() {
   return (
     <Container maxWidth="sm">
-      <Card component={"form"} sx={{ p: "3rem 2rem" }} variant="elevation">
+      <Card component={'form'} sx={{ p: '3rem 2rem' }} variant="elevation">
         <Box
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "1rem",
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
 
-            justifyContent: "center",
+            justifyContent: 'center',
           }}
         >
           <Typography
             variant="h4"
-            fontWeight={"600"}
-            marginBottom={"2rem"}
-            color={"secondary.main"}
+            fontWeight={'600'}
+            marginBottom={'2rem'}
+            color={'secondary.main'}
           >
             What kind of pain you have?
           </Typography>
@@ -75,14 +74,14 @@ function Questionary() {
           <Button
             type="submit"
             variant="contained"
-            sx={{ marginTop: "1rem", backgroundColor: "secondary.main" }}
+            sx={{ marginTop: '1rem', backgroundColor: 'secondary.main' }}
           >
             Submit
           </Button>
         </Box>
       </Card>
     </Container>
-  );
+  )
 }
 
-export default Questionary;
+export default Questionary
