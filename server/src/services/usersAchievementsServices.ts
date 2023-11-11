@@ -8,7 +8,11 @@ async function findAllAchievementsByUser(
     .find({
       userId,
     })
-    .populate('userId')
+    .populate({
+      path: 'userId',
+      model: 'User',
+      select: 'name email',
+    })
     .populate('achievementId')
   return achievements as unknown as Achievement[]
 }
