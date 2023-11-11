@@ -1,9 +1,9 @@
 import express from 'express'
 
-import painsCategoriesController from '../controllers/painsCategoriesController.js'
+import painsController from '../controllers/painsCategoriesController.js'
 
 const router = express.Router()
 
-router.get('/', painsCategoriesController.findAllPainsCategories)
+router.get('/', painsController.findAllPainsCategories)
 
 export default router
