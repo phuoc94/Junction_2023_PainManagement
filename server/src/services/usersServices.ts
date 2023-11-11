@@ -63,13 +63,22 @@ async function createUserApproach(user: string, approach: string) {
 async function findAllUserApproaches(user: string) {
   try {
     const userId = new mongoose.Types.ObjectId(user)
-    const userApproaches = await UserApproachRepo.find({
-      userId,
-    })
-      .populate('approachId')
-      .exec()
+    const userApproaches = await UserApproachRepo.find({ userId })
+      .populate({
+        path: 'approachId',
+        select: '-details',
+      })
+      .select('-userId -_id')
 
-    return userApproaches
+    const transformedUserApproaches = userApproaches.map((a) => {
+      const aObject = a.toObject()
+      return {
+        ...aObject.approachId,
+        status: aObject.status,
+      }
+    })
+
+    return transformedUserApproaches
   } catch (e) {
     const error = e as Error
     return error
