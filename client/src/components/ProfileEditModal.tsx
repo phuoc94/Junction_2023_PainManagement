@@ -6,21 +6,20 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
-} from "@mui/material";
-import React from "react";
+} from '@mui/material'
 
 // component props type
 type ProfileEditModalProps = {
-  isOpen: boolean;
-  setIsOpen: Function;
-};
+  isOpen: boolean
+  setIsOpen: Function
+}
 
 function ProfileEditModal({ isOpen, setIsOpen }: ProfileEditModalProps) {
   return (
     <Dialog
-      component={"form"}
+      component={'form'}
       fullWidth
-      onSubmit={() => console.log("submit function")}
+      onSubmit={() => console.log('submit function')}
       open={isOpen}
       onClose={() => setIsOpen(false)}
     >
@@ -28,10 +27,10 @@ function ProfileEditModal({ isOpen, setIsOpen }: ProfileEditModalProps) {
       <DialogContent>
         <Box
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "2rem",
-            padding: "2rem 0rem",
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '2rem',
+            padding: '2rem 0rem',
           }}
         >
           <TextField label="Full name" variant="outlined" />
@@ -52,7 +51,7 @@ function ProfileEditModal({ isOpen, setIsOpen }: ProfileEditModalProps) {
         </Button>
       </DialogActions>
     </Dialog>
-  );
+  )
 }
 
-export default ProfileEditModal;
+export default ProfileEditModal

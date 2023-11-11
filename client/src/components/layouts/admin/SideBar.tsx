@@ -1,88 +1,77 @@
-import React, { useState } from "react";
-
-// MUI
-import {
-  Avatar,
-  Box,
-  Drawer,
-  IconButton,
-  Link,
-  List,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
-
 // icons
 import {
   AccountCircle,
   Category,
   Dashboard,
-  Money,
   ShoppingBag,
-  Store,
-} from "@mui/icons-material";
-import MenuIcon from "@mui/icons-material/Menu";
-
-// components
-import SideBarItem from "./SideBarItem";
+} from '@mui/icons-material'
+// MUI
+import {
+  Avatar,
+  Box,
+  Drawer,
+  Link,
+  List,
+  Typography,
+  useMediaQuery,
+} from '@mui/material'
 
 // types
-import { SidebarItem } from "../../../@types/sidebar";
-
+import { SidebarItem } from '../../../@types/sidebar'
+import { useGlobalContext } from '../../../context/GlobalContext'
 // context
-import { useThemeContext } from "../../../context/ThemeContext";
-
+import { useThemeContext } from '../../../context/ThemeContext'
+import LogoImg from '../../../images/logo.png'
 // utils
-import { ADMIN_SIDEBAR_WIDTH } from "../../../utils/constants";
-import { useGlobalContext } from "../../../context/GlobalContext";
-
-import LogoImg from "../../../images/logo.png";
+import { ADMIN_SIDEBAR_WIDTH } from '../../../utils/constants'
+// components
+import SideBarItem from './SideBarItem'
 
 // sidebar menus
 const sidebarItems: SidebarItem[] = [
   {
-    title: "Dashboard",
-    path: "/admin/dashboard",
+    title: 'Dashboard',
+    path: '/admin/dashboard',
     icon: <Dashboard />,
   },
   {
-    title: "Users",
-    path: "/admin/users",
+    title: 'Users',
+    path: '/admin/users',
     icon: <AccountCircle />,
   },
   {
-    title: "Plans",
-    path: "/admin/plans",
+    title: 'Plans',
+    path: '/admin/plans',
     icon: <Category />,
   },
   {
-    title: "Exercises",
-    path: "/admin/exercies",
+    title: 'Exercises',
+    path: '/admin/exercies',
     icon: <ShoppingBag />,
   },
-];
+]
 
 // component props type
 type SideBarProps = {
-  isOpen: boolean;
-  handleClose: Function;
-};
+  isOpen: boolean
+  handleClose: Function
+}
 
 function SideBar({ isOpen, handleClose }: SideBarProps) {
-  const { theme } = useThemeContext();
+  const { theme } = useThemeContext()
 
   // auth user state
-  const { user } = useGlobalContext();
+  const { user } = useGlobalContext()
 
   // sidebar content
   const renderContent = (
     <Box
       sx={{
         height: 1,
-        "& .simplebar-content": {
+        '& .simplebar-content': {
           height: 1,
-          display: "flex",
-          flexDirection: "column",
+          display: 'flex',
+          flexDirection: 'column',
         },
       }}
     >
@@ -90,13 +79,13 @@ function SideBar({ isOpen, handleClose }: SideBarProps) {
         sx={{
           px: 2.5,
           py: 3,
-          display: "flex",
-          alignItems: "center",
-          gap: "0.5rem",
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.5rem',
         }}
       >
         <img src={LogoImg} alt="logo" width={32} />
-        <Typography variant="h6" color={"primary"}>
+        <Typography variant="h6" color={'primary'}>
           Chronic
         </Typography>
       </Box>
@@ -105,21 +94,21 @@ function SideBar({ isOpen, handleClose }: SideBarProps) {
         <Link underline="none">
           <Box
             sx={{
-              display: "flex",
-              alignItems: "center",
-              padding: "0.8rem 2rem",
+              display: 'flex',
+              alignItems: 'center',
+              padding: '0.8rem 2rem',
               borderRadius: 1.5,
-              backgroundColor: "action.selected",
+              backgroundColor: 'action.selected',
             }}
           >
             <Avatar src={user?.avatar} alt="photoURL" />
 
             <Box sx={{ ml: 2 }}>
-              <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
+              <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
                 {user?.name}
               </Typography>
 
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
+              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 {user?.role}
               </Typography>
             </Box>
@@ -136,9 +125,9 @@ function SideBar({ isOpen, handleClose }: SideBarProps) {
       </Box>
       <Box sx={{ flexGrow: 1 }} />
     </Box>
-  );
+  )
 
-  const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
+  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'))
 
   return (
     <Box
@@ -155,8 +144,8 @@ function SideBar({ isOpen, handleClose }: SideBarProps) {
           PaperProps={{
             sx: {
               width: ADMIN_SIDEBAR_WIDTH,
-              bgcolor: "background.default",
-              borderRightStyle: "dashed",
+              bgcolor: 'background.default',
+              borderRightStyle: 'dashed',
             },
           }}
         >
@@ -180,7 +169,7 @@ function SideBar({ isOpen, handleClose }: SideBarProps) {
         </Drawer>
       )}
     </Box>
-  );
+  )
 }
 
-export default SideBar;
+export default SideBar
