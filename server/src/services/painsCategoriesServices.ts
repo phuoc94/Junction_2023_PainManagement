@@ -10,7 +10,15 @@ async function findAll() {
 async function findById(categoryId: string) {
   const id = new mongoose.Types.ObjectId(categoryId)
 
-  const category = await PainCategoryRepo.findById(id).populate('pains').exec()
+  const category = await PainCategoryRepo.findById(id)
+    .populate({
+      path: 'pains',
+      populate: {
+        path: 'approachs',
+        model: 'Approach',
+      },
+    })
+    .exec()
   return category
 }
 
