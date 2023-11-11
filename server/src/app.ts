@@ -6,6 +6,7 @@ import { routeNotFound } from './middlewares/routeNotFound.js'
 import achievementsRoutes from './routes/achievementsRoutes.js'
 import approachesRoutes from './routes/approachesRoutes.js'
 import authRoutes from './routes/authRoutes.js'
+import painsCategoriesRoutes from './routes/painsCategoriesRoutes.js'
 import painsRoutes from './routes/painsRoutes.js'
 import usersRoutes from './routes/usersRoutes.js'
 
@@ -21,6 +22,7 @@ app.use('/api/v1/pains', painsRoutes)
 app.use('/api/v1/approaches', approachesRoutes)
 app.use('/api/v1/auth', authRoutes)
 app.use('/api/v1/achievements', achievementsRoutes)
+app.use('/api/v1/pains-categories', painsCategoriesRoutes)
 
 // Error Handler
 app.use(apiErrorHandler)
