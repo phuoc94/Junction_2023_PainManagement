@@ -66,7 +66,10 @@ export async function validateEmailOrRequestNotEmptyInRegister(
   const name = req.body.name;
   const password = req.body.password;
 
-  if (email.length === 0 || password.length === 0 || name.length === 0) {
+  if (email === undefined || password === undefined || name === undefined) {
+    next(ApiError.internal("Invalid email or password or name!"))
+  }
+  if (email?.length === 0 || password?.length === 0 || name?.length === 0) {
     next(ApiError.badRequest('Email or password or name is not given! Please enter again!'))
   }
 
@@ -85,7 +88,11 @@ export async function validateEmailAndPasswordExists(
   const email = req.body.email;
   const password = req.body.password;
 
-  if (email.length === 0 || password.length === 0) {
+  if (email === undefined || password === undefined) {
+    next(ApiError.internal("Invalid email or password!"))
+  }
+
+  if (email?.length === 0 || password?.length === 0) {
     next(ApiError.badRequest('Email or password is not given! Please enter again!'))
   }
 
