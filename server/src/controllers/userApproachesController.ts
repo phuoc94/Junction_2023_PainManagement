@@ -69,7 +69,7 @@ export async function updateStatusForUserApproach(
     return
   }
 
-  const approaches = pain?.approachs
+  const approaches = pain?.approaches
 
   if (!approaches?.includes(new mongoose.Types.ObjectId(approachId))) {
     next(ApiError.notFound(`This approach does not belong to this pain!`))
