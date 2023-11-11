@@ -65,41 +65,53 @@ export async function updateStatusForUserApproach(
 ): Promise<void> {
   const { userApproachId } = req.body;
 
-
-  let userApproach = await userApproachModel.findById(userApproachId);
-
-  if (userApproach === null) {
-    next(ApiError.notFound("There is no user approach with this user approach id"));
+  if (userApproachId.length === 0) {
+    next(ApiError.notFound("There is no user approach id given"));
     return;
   }
+  
+  try {
+    let userApproach = await userApproachModel.findById(userApproachId);
 
-  if (userApproach?.status === "not_started") {
-    userApproach = await userApproachModel.findByIdAndUpdate(userApproachId, { status: "in_process"}, { new: true});
-  } else if (userApproach?.status === "in_process") {
-    userApproach = await userApproachModel.findByIdAndUpdate(userApproachId, { status: "completed"}, { new: true});
+    if (userApproach?.status === "not_started") {
+      userApproach = await userApproachModel.findByIdAndUpdate(userApproachId, { status: "in_process"}, { new: true });
 
-    let approach = await approachModel.findById(userApproach?.approachId);
+      res.status(200).json(userApproach);
+      return;
+    } else if (userApproach?.status === "in_process") {
+      userApproach = await userApproachModel.findByIdAndUpdate(userApproachId, { status: "completed"}, { new: true });
 
-    if (approach === null) {
-      next(ApiError.notFound("There is no approach with this approach id"));
+      try {
+
+        let approach = await approachModel.findById(userApproach?.approachId);
+
+        try {
+
+        const userAchievement = new userAchievementModel({
+          userId: userApproach?.userId,
+          achievementId: approach?.achievement?._id
+        })
+
+        await userAchievement.save()
+
+
+        res.status(200).json(userApproach);
+
+        } catch (err) {
+          next(ApiError.notFound("Cannot save this user achievement!"));
+        }
+
+      } catch (err) {
+        next(ApiError.notFound("Cannot find this approach with this approach id"));
+      }
+    } else if (userApproach?.status === "completed") {
+      res.status(200).json(userApproach)
       return;
     }
 
-    try {
-      const userAchievement = new userAchievementModel({
-        userId: userApproach?.userId,
-        achievementId: approach?.achievement?._id
-      })
-  
-      userAchievement.save();
-    } catch {
-      next(ApiError.internal("Problem when saving data!s"))
-    }
-    
+  } catch (err) {
+    next(ApiError.notFound("Cannot find this user approach id"));
   }
-  
-  res.status(200).json(userApproach);
-
 }
 
 export default {
