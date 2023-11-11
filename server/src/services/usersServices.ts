@@ -55,8 +55,7 @@ async function createUserApproach(user: string, approach: string) {
     await newUserApproach.save()
     return newUserApproach
   } catch (e) {
-    const error = e as Error
-    return error
+    return null;
   }
 }
 
@@ -77,6 +76,7 @@ async function findAllUserApproaches(user: string) {
         status: aObject.status,
       }
     })
+
 
     return transformedUserApproaches
   } catch (e) {

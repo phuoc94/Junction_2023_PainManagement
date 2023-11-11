@@ -5,6 +5,7 @@ import userApproachModel from '../models/userApproachModel.js'
 import painsServices from '../services/painsServices.js'
 import UsersServices from '../services/usersServices.js'
 import { ApiError } from '../utils/ApiError.js'
+import approachesServices from '../services/approachesServices.js'
 
 export async function createUserApproach(
   req: Request,
@@ -14,18 +15,28 @@ export async function createUserApproach(
   const { userId } = req.params
   const { approachId } = req.body
 
-  try {
+
     if (approachId === undefined) {
       next(ApiError.badRequest('approachId is missing'))
+      return;
     }
+
+    if (approachesServices.findById(approachId) === null) {
+      next(ApiError.notFound("This approach with this approach id does not exist!"))
+      return;
+    }
+
     const newUserApproach = await UsersServices.createUserApproach(
       userId,
       approachId
     )
-    res.json(newUserApproach)
-  } catch (error) {
-    next(ApiError.internal('something wrong happed'))
-  }
+      
+    if (newUserApproach === null) {
+      next(ApiError.badRequest("This approach cannot be saved!"));
+      return;
+    }
+    res.status(201).json(newUserApproach)
+
 }
 
 export async function findAllUserApproaches(
@@ -55,9 +66,9 @@ export async function updateStatusForUserApproach(
     userId === null ||
     approachId === null ||
     painId === null ||
-    approachId.length === 0 ||
-    painId.length === 0 ||
-    userId.length === 0
+    approachId?.length === 0 ||
+    painId?.length === 0 ||
+    userId?.length === 0
   ) {
     next(ApiError.badRequest('Missing user id, approach id, or pain id'))
     return
