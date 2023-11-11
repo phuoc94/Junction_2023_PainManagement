@@ -16,6 +16,10 @@ async function findById(categoryId: string) {
       populate: {
         path: 'approachs',
         model: 'Approach',
+        populate: {
+          path: 'achievement',
+          model: 'Achievement',
+        },
       },
     })
     .exec()
