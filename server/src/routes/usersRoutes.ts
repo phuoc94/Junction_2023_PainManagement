@@ -24,4 +24,10 @@ router.post(
   UserApproachesController.createUserApproach
 )
 
+router.put(
+  '/approaches/updateStatus',
+  verifyTokenToAuthorizeUser,
+  UserApproachesController.updateStatusForUserApproach
+)
+
 export default router

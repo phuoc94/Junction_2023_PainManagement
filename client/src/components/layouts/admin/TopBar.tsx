@@ -1,40 +1,29 @@
-import React from "react";
-
-// MUI
-import {
-  AppBar,
-  Box,
-  Divider,
-  IconButton,
-  Stack,
-  Toolbar,
-} from "@mui/material";
-
 // icons
-import { Menu as MenuIcon } from "@mui/icons-material";
+import { Menu as MenuIcon } from '@mui/icons-material'
+// MUI
+import { AppBar, Box, Divider, IconButton, Stack, Toolbar } from '@mui/material'
 
-// components
-import AccountPopover from "./AccountPopover";
-
+import { useThemeContext } from '../../../context/ThemeContext'
 // utils
-import { ADMIN_SIDEBAR_WIDTH } from "../../../utils/constants";
-import { useThemeContext } from "../../../context/ThemeContext";
+import { ADMIN_SIDEBAR_WIDTH } from '../../../utils/constants'
+// components
+import AccountPopover from './AccountPopover'
 
 // component props type
 type TopBarProps = {
-  handleSideBarOpen: Function;
-};
+  handleSideBarOpen: Function
+}
 
 function TopBar({ handleSideBarOpen }: TopBarProps) {
-  const { theme } = useThemeContext();
+  const { theme } = useThemeContext()
 
   return (
     <AppBar
       sx={{
-        boxShadow: "none",
-        backgroundColor: "background.default",
-        color: "text.primary",
-        [theme.breakpoints.up("lg")]: {
+        boxShadow: 'none',
+        backgroundColor: 'background.default',
+        color: 'text.primary',
+        [theme.breakpoints.up('lg')]: {
           width: `calc(100% - ${ADMIN_SIDEBAR_WIDTH + 1}px)`,
         },
       }}
@@ -44,8 +33,8 @@ function TopBar({ handleSideBarOpen }: TopBarProps) {
           onClick={() => handleSideBarOpen()}
           sx={{
             mr: 1,
-            color: "text.primary",
-            display: { lg: "none" },
+            color: 'text.primary',
+            display: { lg: 'none' },
           }}
         >
           <MenuIcon />
@@ -70,8 +59,8 @@ function TopBar({ handleSideBarOpen }: TopBarProps) {
           >
             <img
               width={24}
-              src={"https://tailwindui.com/img/flags/flag-united-states.svg"}
-              alt={"flag"}
+              src={'https://tailwindui.com/img/flags/flag-united-states.svg'}
+              alt={'flag'}
             />
           </IconButton>
 
@@ -80,7 +69,7 @@ function TopBar({ handleSideBarOpen }: TopBarProps) {
       </Toolbar>
       <Divider light />
     </AppBar>
-  );
+  )
 }
 
-export default TopBar;
+export default TopBar

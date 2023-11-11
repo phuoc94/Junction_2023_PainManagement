@@ -17,28 +17,30 @@ export async function createUserApproach(
   const { userId } = req.params
   const { approachId } = req.body
 
+  if (approachId === undefined) {
+    next(ApiError.badRequest('approachId is missing'))
+    return
+  }
 
-    if (approachId === undefined) {
-      next(ApiError.badRequest('approachId is missing'))
-      return;
-    }
+  const approach = await approachesServices.findById(approachId)
 
-    if (approachesServices.findById(approachId) === null) {
-      next(ApiError.notFound("This approach with this approach id does not exist!"))
-      return;
-    }
-
-    const newUserApproach = await UsersServices.createUserApproach(
-      userId,
-      approachId
+  if (approach === null) {
+    next(
+      ApiError.notFound('This approach with this approach id does not exist!')
     )
-      
-    if (newUserApproach === null) {
-      next(ApiError.badRequest("This approach cannot be saved!"));
-      return;
-    }
-    res.status(201).json(newUserApproach)
+    return
+  }
 
+  const newUserApproach = await UsersServices.createUserApproach(
+    userId,
+    approachId
+  )
+
+  if (newUserApproach === null) {
+    next(ApiError.badRequest('This approach cannot be saved!'))
+    return
+  }
+  res.status(201).json(newUserApproach)
 }
 
 export async function findAllUserApproaches(

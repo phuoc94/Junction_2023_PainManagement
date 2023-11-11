@@ -1,11 +1,9 @@
-import express from "express";
-import approachesController from "../controllers/approachesController.js";
-import userApproachesController from "../controllers/userApproachesController.js";
-import { verifyTokenToAuthorizeUser } from "../middlewares/userValidate.js";
+import express from 'express'
+
+import approachesController from '../controllers/approachesController.js'
 
 const router = express.Router()
 
-router.get("/", approachesController.findAllApproaches)
-router.put("/updateStatus", verifyTokenToAuthorizeUser, userApproachesController.updateStatusForUserApproach)
+router.get('/', approachesController.findAllApproaches)
 
 export default router

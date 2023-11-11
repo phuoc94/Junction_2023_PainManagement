@@ -1,16 +1,16 @@
-import React from "react";
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+
 import {
   Box,
-  Container,
-  Typography,
-  TextField,
   Button,
+  Card,
+  Checkbox,
+  Container,
   FormControlLabel,
   FormGroup,
-  Checkbox,
-  Card,
-} from "@mui/material";
-import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
+  TextField,
+  Typography,
+} from '@mui/material'
 
 // type Inputs = {
 //   username: string;
@@ -23,31 +23,31 @@ function SignUp() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm()
 
   const signUpForm: SubmitHandler<FieldValues> = async (values) => {
     try {
-      console.log(values);
-      reset();
+      console.log(values)
+      reset()
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
   return (
     <Container maxWidth="sm">
       <Card
-        component={"form"}
-        sx={{ p: "3rem 2rem" }}
+        component={'form'}
+        sx={{ p: '3rem 2rem' }}
         variant="elevation"
         onSubmit={handleSubmit(signUpForm)}
       >
         <Box
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "1rem",
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
 
-            justifyContent: "center",
+            justifyContent: 'center',
           }}
         >
           <Typography variant="h3">Create An Account</Typography>
@@ -57,15 +57,15 @@ function SignUp() {
             maxRows={4}
             fullWidth
             placeholder="Enter Username"
-            {...register("username", {
+            {...register('username', {
               required: {
                 value: true,
-                message: "username is required",
+                message: 'username is required',
               },
             })}
           />
           {errors.username && (
-            <Typography variant="caption" color={"red"}>
+            <Typography variant="caption" color={'red'}>
               "error"
             </Typography>
           )}
@@ -75,15 +75,15 @@ function SignUp() {
             maxRows={4}
             fullWidth
             placeholder="Enter Email"
-            {...register("email", {
+            {...register('email', {
               required: {
                 value: true,
-                message: "Email is required",
+                message: 'Email is required',
               },
             })}
           />
           {errors.email && (
-            <Typography variant="caption" color={"red"}>
+            <Typography variant="caption" color={'red'}>
               "error"
             </Typography>
           )}
@@ -93,15 +93,15 @@ function SignUp() {
             maxRows={4}
             fullWidth
             placeholder="Enter Password"
-            {...register("password", {
+            {...register('password', {
               required: {
                 value: true,
-                message: "Password is required",
+                message: 'Password is required',
               },
             })}
           />
           {errors.password && (
-            <Typography variant="caption" color={"red"}>
+            <Typography variant="caption" color={'red'}>
               "error"
             </Typography>
           )}
@@ -111,13 +111,13 @@ function SignUp() {
               label="Label"
             />
           </FormGroup>
-          <Button type="submit" variant="contained" sx={{ marginTop: "1rem" }}>
+          <Button type="submit" variant="contained" sx={{ marginTop: '1rem' }}>
             SignUp
           </Button>
         </Box>
       </Card>
     </Container>
-  );
+  )
 }
 
-export default SignUp;
+export default SignUp

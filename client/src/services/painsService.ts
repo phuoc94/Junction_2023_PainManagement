@@ -1,20 +1,18 @@
-import axios from "axios";
+import axios from 'axios'
 
-const baseUrl = "http://localhost:3000/api/v1/pains";
+const baseUrl = `${process.env.REACT_APP_API_URL}/pains`
 
 type GetAllPainsResponse = {
-  _id: string,
-  name: string,
-  description: string,
-  approaches: string[],
-}[];
+  _id: string
+  name: string
+  description: string
+  approaches: string[]
+}[]
 
 const getAllPains = async () => {
-  const { data } = await axios.get<GetAllPainsResponse>(baseUrl);
-  console.log(data[0].approaches[0]);
-  return data;
-};
+  const { data } = await axios.get<GetAllPainsResponse>(baseUrl)
+  console.log(data[0].approaches[0])
+  return data
+}
 
-export {
-  getAllPains,
-};
+export { getAllPains }
