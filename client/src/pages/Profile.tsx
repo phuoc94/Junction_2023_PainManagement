@@ -19,7 +19,7 @@ import ProfileEditModal from '../components/ProfileEditModal'
 function Profile() {
   // tabs
   const [value, setValue] = useState(0)
-  const handleChange = (newValue: number) => {
+  const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
 
