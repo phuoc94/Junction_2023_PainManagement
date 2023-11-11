@@ -1,8 +1,13 @@
 import type { NextFunction, Request, Response } from 'express'
 import type { ZodError } from 'zod'
-
+import jwt, { JwtPayload, decode } from "jsonwebtoken"
 import { userCreateSchema, userUpdateSchema } from '../schemas/usersSchema.js'
 import { ApiError } from '../utils/ApiError.js'
+import userModel from '../models/userModel.js'
+import { decodeType } from '../types/response/DecodeType.js'
+import { User } from '../types/User.js'
+import decodeTokenToGetId from '../utils/DecodeTokenToGetId.js'
+
 
 export async function validateCreateUser(
   req: Request,
@@ -93,3 +98,117 @@ export async function validateEmailAndPasswordExists(
 
   next()
 }
+
+export async function verifyTokenToAuthorizeAdmin (
+  req: Request,
+  _: Response,
+  next: NextFunction
+): Promise<void> {
+  let token;
+
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    try {
+
+      token = req.headers.authorization.split(" ")[1];
+
+      let decoded = decodeTokenToGetId(token);
+
+      const user = (await userModel
+        .findById(decoded?.id)
+        .select('-password')) as User
+
+      const role = user?.role
+
+      if (role === null) {
+        next(ApiError.unauthorized('You provided an invalid token! You are basically not authorized to access any routes!'))
+      };
+
+      if (role !== 'admin') {
+        next(
+          ApiError.unauthorized(
+            'You are not an admin! You cannot be allowed to access this!'
+          ))
+      };
+
+      next()
+    } catch (error) {
+      next(ApiError.unauthorized("No API token is provided or there is something wrong with token to decode!"));
+    }
+    } else {
+      next(ApiError.unauthorized("No API token is provided!"));
+    }
+}
+
+export async function verifyTokenToAuthorizeUser (
+  req: Request,
+  _: Response,
+  next: NextFunction
+): Promise<void> {
+  let token;
+
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    try {
+
+      token = req.headers.authorization.split(" ")[1];
+
+      let decoded = decodeTokenToGetId(token);
+
+      const user = (await userModel
+        .findById(decoded?.id)
+        .select('-password')) as User
+
+      const role = user?.role
+
+      if (role === null) {
+        next(ApiError.unauthorized('You provided an invalid token! You are basically not authorized to access any routes!'))
+      };
+
+      next()
+    } catch (error) {
+      next(ApiError.unauthorized("No API token is provided or there is something wrong with token to decode!"));
+    }
+    } else {
+      next(ApiError.unauthorized("No API token is provided!"));
+    }
+}
+
+// export async function verifyTokenToAuthorizeUser (
+//   req: Request,
+//   _: Response,
+//   next: NextFunction
+// ): Promise<void> {
+//   let token;
+
+//   if (
+//     req.headers.authorization &&
+//     req.headers.authorization.startsWith('Bearer')
+//   ) {
+//     try {
+
+//       token = req.headers.authorization.split(" ")[1];
+
+//       let decoded = jwt.verify(token, JWT_SECRET);
+
+//       const role = await userModel.findById(decoded?.id)?.role;
+
+//       if (role === 'admin') {
+//         next();
+//       } else {
+//         next(ApiError.unauthorized(
+//             'You are not an admin! You cannot be allowed to access this!'
+//           )
+//       }
+//       next()
+//     } catch (error) {
+//       next(ApiError.unauthorized("No API token is provided or there is something with token!"));
+//     }
+//     } else {
+//       next(ApiError.unauthorized("No API token is provided!"));
+//     }
+// }
