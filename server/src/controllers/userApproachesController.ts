@@ -4,9 +4,9 @@ import mongoose from 'mongoose'
 import userApproachModel from '../models/userApproachModel.js'
 import UsersServices from '../services/usersServices.js'
 import { ApiError } from '../utils/ApiError.js'
-import approachesServices from '../services/approachesServices.js'
 import userAchievementModel from '../models/userAchievementModel.js'
 import approachModel from '../models/approachModel.js'
+import approachesServices from '../services/approachesServices.js'
 
 export async function createUserApproach(
   req: Request,
@@ -22,7 +22,7 @@ export async function createUserApproach(
   }
 
   try {
-    const approach = await approachModel.findById(approachId);
+    await approachModel.findById(approachId);
 
     const newUserApproach = await UsersServices.createUserApproach(
       userId,
@@ -34,7 +34,8 @@ export async function createUserApproach(
       return
     }
     res.status(201).json(newUserApproach);
-  } catch (err) {
+  } 
+  catch (err) {
     next(ApiError.notFound('This approach with this approach id does not exist!'));
   }
 
