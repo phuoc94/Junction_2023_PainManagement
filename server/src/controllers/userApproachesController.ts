@@ -26,6 +26,21 @@ export async function createUserApproach(
   }
 }
 
+export async function findAllUserApproaches(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  const { userId } = req.params
+
+  try {
+    const userApproaches = await UsersServices.findAllUserApproaches(userId)
+    res.json(userApproaches)
+  } catch (error) {
+    next(ApiError.internal('something wrong happed'))
+  }
+}
 export default {
+  findAllUserApproaches,
   createUserApproach,
 }

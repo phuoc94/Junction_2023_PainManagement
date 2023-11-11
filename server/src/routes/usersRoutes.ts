@@ -11,6 +11,13 @@ router.get(
   verifyTokenToAuthorizeUser,
   UserAchievementsController.findAllUserAchievements
 )
+
+router.get(
+  '/approach',
+  verifyTokenToAuthorizeUser,
+  UserApproachesController.findAllUserApproaches
+)
+
 router.post(
   '/approach',
   verifyTokenToAuthorizeUser,

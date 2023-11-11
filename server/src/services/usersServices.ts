@@ -51,10 +51,25 @@ async function createUserApproach(user: string, approach: string) {
     const newUserApproach = new UserApproachRepo({
       userId,
       approachId,
-      status: 'in_process',
     })
     await newUserApproach.save()
     return newUserApproach
+  } catch (e) {
+    const error = e as Error
+    return error
+  }
+}
+
+async function findAllUserApproaches(user: string) {
+  try {
+    const userId = new mongoose.Types.ObjectId(user)
+    const userApproaches = await UserApproachRepo.find({
+      userId,
+    })
+      .populate('approachId')
+      .exec()
+
+    return userApproaches
   } catch (e) {
     const error = e as Error
     return error
@@ -66,4 +81,5 @@ export default {
   deleteUser,
   updateUser,
   createUserApproach,
+  findAllUserApproaches,
 }
