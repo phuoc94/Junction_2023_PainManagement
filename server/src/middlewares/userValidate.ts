@@ -134,6 +134,7 @@ export async function verifyTokenToAuthorizeAdmin (
           ))
       };
 
+      req.params.userId = user?.id;
       next()
     } catch (error) {
       next(ApiError.unauthorized("No API token is provided or there is something wrong with token to decode!"));
@@ -169,7 +170,7 @@ export async function verifyTokenToAuthorizeUser (
       if (role === null) {
         next(ApiError.unauthorized('You provided an invalid token! You are basically not authorized to access any routes!'))
       };
-
+      req.params.userId = user?.id;
       next()
     } catch (error) {
       next(ApiError.unauthorized("No API token is provided or there is something wrong with token to decode!"));

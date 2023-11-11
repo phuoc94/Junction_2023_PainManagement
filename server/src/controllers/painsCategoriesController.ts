@@ -16,7 +16,7 @@ export async function findPainById(req: Request, res: Response): Promise<void> {
     const { categoryId } = req.params
     const caterory = await PainscategoriesServices.findById(categoryId)
     if (caterory == null) throw new Error('category not found')
-    res.status(200).send({ caterory })
+    res.status(200).send(caterory)
   } catch (error) {
     if (error instanceof Error) {
       res.status(404).send({ error: error.message })

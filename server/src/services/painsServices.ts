@@ -12,7 +12,21 @@ async function findByCategory(categoryId: string) {
   return pains
 }
 
+async function findById (id: string) {
+  
+  try {
+    const singlePain = await PainRepo.findById(id).exec();
+    return singlePain
+  } catch (err) {
+    return null;
+  }
+
+
+ 
+}
+
 export default {
   findAll,
   findByCategory,
+  findById
 }
