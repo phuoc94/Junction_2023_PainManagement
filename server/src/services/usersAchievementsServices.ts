@@ -5,16 +5,15 @@ async function findAllAchievementsByUser(
   userId: string
 ): Promise<Achievement[]> {
   const achievements = await userAchievementModel
-    .find({
-      userId,
-    })
+    .find({ userId })
     .populate({
-      path: 'userId',
-      model: 'User',
-      select: 'name email',
+      path: 'achievementId',
+      select: '-__v',
     })
-    .populate('achievementId')
-  return achievements as unknown as Achievement[]
+    .select('-_id')
+
+  const transformedAchievements = achievements.map((a) => a.achievementId)
+  return transformedAchievements as unknown as Achievement[]
 }
 
 export default {
