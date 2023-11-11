@@ -50,7 +50,7 @@ async function createUserApproach(user: string, approach: string) {
     const approachId = new mongoose.Types.ObjectId(approach)
     const newUserApproach = new UserApproachRepo({
       userId,
-      approaches: approachId,
+      approachId,
     })
     await newUserApproach.save()
     return newUserApproach

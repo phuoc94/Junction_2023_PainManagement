@@ -65,36 +65,41 @@ export async function updateStatusForUserApproach(
 ): Promise<void> {
   const { userApproachId } = req.body;
 
-  try {
 
   let userApproach = await userApproachModel.findById(userApproachId);
 
-  switch(userApproach?.status) {
-    case "not_started":
-      userApproach = await userApproachModel.findByIdAndUpdate(userApproachId, {status: "in_process"})
-    case "in_process":
-      userApproach = await userApproachModel.findByIdAndUpdate(userApproachId, {status: "completed"})
-      const approach = await approachModel.findById(userApproach?.approachId);
+  if (userApproach === null) {
+    next(ApiError.notFound("There is no user approach with this user approach id"));
+    return;
+  }
 
-      if (approach === null) {
-        next(ApiError.notFound("There is no approach with this approach id"));
-      }
+  if (userApproach?.status === "not_started") {
+    userApproach = await userApproachModel.findByIdAndUpdate(userApproachId, { status: "in_process"}, { new: true});
+  } else if (userApproach?.status === "in_process") {
+    userApproach = await userApproachModel.findByIdAndUpdate(userApproachId, { status: "completed"}, { new: true});
 
+    let approach = await approachModel.findById(userApproach?.approachId);
+
+    if (approach === null) {
+      next(ApiError.notFound("There is no approach with this approach id"));
+      return;
+    }
+
+    try {
       const userAchievement = new userAchievementModel({
         userId: userApproach?.userId,
-        achievementId: approach?.id
-      });
-
+        achievementId: approach?.achievement?._id
+      })
+  
       userAchievement.save();
-    default:
-      break
+    } catch {
+      next(ApiError.internal("Problem when saving data!s"))
+    }
+    
   }
-
+  
   res.status(200).json(userApproach);
 
-  } catch (err) {
-    next(ApiError.notFound("There is no user approach with this user approach id"));
-  }
 }
 
 export default {
