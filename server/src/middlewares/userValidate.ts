@@ -9,6 +9,7 @@ import { User } from '../types/User.js'
 import decodeTokenToGetId from '../utils/DecodeTokenToGetId.js'
 
 
+
 export async function validateCreateUser(
   req: Request,
   _: Response,
@@ -178,37 +179,3 @@ export async function verifyTokenToAuthorizeUser (
     }
 }
 
-// export async function verifyTokenToAuthorizeUser (
-//   req: Request,
-//   _: Response,
-//   next: NextFunction
-// ): Promise<void> {
-//   let token;
-
-//   if (
-//     req.headers.authorization &&
-//     req.headers.authorization.startsWith('Bearer')
-//   ) {
-//     try {
-
-//       token = req.headers.authorization.split(" ")[1];
-
-//       let decoded = jwt.verify(token, JWT_SECRET);
-
-//       const role = await userModel.findById(decoded?.id)?.role;
-
-//       if (role === 'admin') {
-//         next();
-//       } else {
-//         next(ApiError.unauthorized(
-//             'You are not an admin! You cannot be allowed to access this!'
-//           )
-//       }
-//       next()
-//     } catch (error) {
-//       next(ApiError.unauthorized("No API token is provided or there is something with token!"));
-//     }
-//     } else {
-//       next(ApiError.unauthorized("No API token is provided!"));
-//     }
-// }

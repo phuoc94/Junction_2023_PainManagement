@@ -1,3 +1,4 @@
+import cors from 'cors'
 import express from 'express'
 
 import { apiErrorHandler } from './middlewares/error.js'
@@ -13,6 +14,7 @@ import usersRoutes from './routes/usersRoutes.js'
 const app = express()
 
 // Middleware
+app.use(cors())
 app.use(express.json())
 app.use(loggingMiddleware)
 

@@ -14,9 +14,9 @@ export async function findAllPainsCategories(
 export async function findPainById(req: Request, res: Response): Promise<void> {
   try {
     const { categoryId } = req.params
-    const pains = await PainscategoriesServices.findById(categoryId)
-    if (pains == null) throw new Error('Pain not found')
-    res.status(200).send({ data: pains })
+    const caterory = await PainscategoriesServices.findById(categoryId)
+    if (caterory == null) throw new Error('category not found')
+    res.status(200).send({ caterory })
   } catch (error) {
     if (error instanceof Error) {
       res.status(404).send({ error: error.message })
