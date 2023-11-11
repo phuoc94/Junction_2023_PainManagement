@@ -6,6 +6,8 @@ import painsServices from '../services/painsServices.js'
 import UsersServices from '../services/usersServices.js'
 import { ApiError } from '../utils/ApiError.js'
 import approachesServices from '../services/approachesServices.js'
+import userAchievementModel from '../models/userAchievementModel.js'
+import approachModel from '../models/approachModel.js'
 
 export async function createUserApproach(
   req: Request,
@@ -59,67 +61,38 @@ export async function updateStatusForUserApproach(
   res: Response,
   next: NextFunction
 ): Promise<void> {
-  const { userId } = req.params
-  const { approachId, painId } = req.body
+  const { userApproachId } = req.body;
 
-  if (
-    userId === null ||
-    approachId === null ||
-    painId === null ||
-    approachId?.length === 0 ||
-    painId?.length === 0 ||
-    userId?.length === 0
-  ) {
-    next(ApiError.badRequest('Missing user id, approach id, or pain id'))
-    return
-  }
-  const pain = await painsServices.findById(painId)
+  try {
 
-  if (pain === null) {
-    next(ApiError.notFound('Cannot find this pain with this pain id'))
-    return
-  }
+  let userApproach = await userApproachModel.findById(userApproachId);
 
-  const approaches = pain?.approachs
+  switch(userApproach?.status) {
+    case "not_started":
+      userApproach = await userApproachModel.findByIdAndUpdate(userApproachId, {status: "in_process"})
+    case "in_process":
+      userApproach = await userApproachModel.findByIdAndUpdate(userApproachId, {status: "completed"})
+      const approach = await approachModel.findById(userApproach?.approachId);
 
-  if (!approaches?.includes(new mongoose.Types.ObjectId(approachId))) {
-    next(ApiError.notFound(`This approach does not belong to this pain!`))
-    return
-  }
+      if (approach === null) {
+        next(ApiError.notFound("There is no approach with this approach id"));
+      }
 
-  let singleUserApproach = await userApproachModel.findOne({
-    userId: userId,
-    approachId: approachId,
-  })
+      const userAchievement = new userAchievementModel({
+        userId: userApproach?.userId,
+        achievementId: approach?.id
+      });
 
-  if (singleUserApproach === null) {
-    next(
-      ApiError.notFound(
-        'There is no user approach with this user id and approach id'
-      )
-    )
-    return
-  }
-
-  switch (singleUserApproach?.status) {
-    case 'not_started':
-      singleUserApproach = await userApproachModel.findOneAndUpdate(
-        { userId, approachId },
-        { status: 'in_process' }
-      )
-      break
-    case 'in_process':
-      singleUserApproach = await userApproachModel.findOneAndUpdate(
-        { userId, approachId },
-        { status: 'completed' }
-      )
-      break
-    case 'completed':
-      break
+      userAchievement.save();
     default:
       break
   }
-  res.status(200).json(singleUserApproach)
+
+  res.status(200).json(userApproach);
+
+  } catch (err) {
+    next(ApiError.notFound("There is no user approach with this user approach id"));
+  }
 }
 
 export default {
