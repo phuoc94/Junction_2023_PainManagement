@@ -13,13 +13,13 @@ router.get(
 )
 
 router.get(
-  '/approach',
+  '/approaches',
   verifyTokenToAuthorizeUser,
   UserApproachesController.findAllUserApproaches
 )
 
 router.post(
-  '/approach',
+  '/approaches',
   verifyTokenToAuthorizeUser,
   UserApproachesController.createUserApproach
 )
