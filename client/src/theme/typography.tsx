@@ -1,35 +1,31 @@
-const remToPx = (value: string) => {
-  return Math.round(parseFloat(value) * 16);
-};
-
 const pxToRem = (value: number) => {
-  return `${value / 16}rem`;
-};
+  return `${value / 16}rem`
+}
 
 const responsiveFontSizes = ({
   sm,
   md,
   lg,
 }: {
-  sm: number;
-  md: number;
-  lg: number;
+  sm: number
+  md: number
+  lg: number
 }) => {
   return {
-    "@media (min-width:600px)": {
+    '@media (min-width:600px)': {
       fontSize: pxToRem(sm),
     },
-    "@media (min-width:900px)": {
+    '@media (min-width:900px)': {
       fontSize: pxToRem(md),
     },
-    "@media (min-width:1200px)": {
+    '@media (min-width:1200px)': {
       fontSize: pxToRem(lg),
     },
-  };
-};
+  }
+}
 
 const typography = {
-  fontFamily: "Roboto",
+  fontFamily: 'Roboto',
   fontWeightRegular: 400,
   fontWeightMedium: 600,
   fontWeightBold: 700,
@@ -95,14 +91,14 @@ const typography = {
     fontWeight: 700,
     lineHeight: 1.5,
     fontSize: pxToRem(12),
-    textTransform: "uppercase",
+    textTransform: 'uppercase',
   },
   button: {
     fontWeight: 700,
     lineHeight: 24 / 14,
     fontSize: pxToRem(14),
-    textTransform: "capitalize",
+    textTransform: 'capitalize',
   },
-} as const;
+} as const
 
-export default typography;
+export default typography

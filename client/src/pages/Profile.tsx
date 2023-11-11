@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import {
   Avatar,
   Box,
@@ -10,29 +12,29 @@ import {
   Tab,
   Tabs,
   Typography,
-} from "@mui/material";
-import React, { useState } from "react";
-import ProfileEditModal from "../components/ProfileEditModal";
+} from '@mui/material'
+
+import ProfileEditModal from '../components/ProfileEditModal'
 
 function Profile() {
   // tabs
-  const [value, setValue] = useState(0);
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
+  const [value, setValue] = useState(0)
+  const handleChange = (newValue: number) => {
+    setValue(newValue)
+  }
 
   // modal
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
     <Container>
       <Card sx={{ paddingBottom: 0 }}>
-        <CardContent sx={{ paddingBottom: "0px !important" }}>
+        <CardContent sx={{ paddingBottom: '0px !important' }}>
           <Grid container padding={0}>
-            <Grid md={6} sm={12} item sx={{ borderRight: "2px dotted #ddd" }}>
+            <Grid md={6} sm={12} item sx={{ borderRight: '2px dotted #ddd' }}>
               <Grid container>
                 <Grid md={4} sm={6}>
-                  <IconButton sx={{ position: "relative" }}>
+                  <IconButton sx={{ position: 'relative' }}>
                     <Avatar src="url here" sx={{ width: 128, height: 128 }} />
                   </IconButton>
                 </Grid>
@@ -86,11 +88,11 @@ function Profile() {
               </Grid>
             </Grid>
           </Grid>
-          <Box sx={{ borderBottom: 1, borderColor: "divider", marginTop: 4 }}>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider', marginTop: 4 }}>
             <Tabs value={value} onChange={handleChange}>
-              <Tab label={"History"} />
-              <Tab label={"Achievements"} />
-              <Tab label={"Something"} />
+              <Tab label={'History'} />
+              <Tab label={'Achievements'} />
+              <Tab label={'Something'} />
             </Tabs>
           </Box>
         </CardContent>
@@ -99,7 +101,7 @@ function Profile() {
       {/* tab 1 */}
       <Box
         role="tabpanel"
-        component={"div"}
+        component={'div'}
         hidden={value !== 0}
         sx={{ marginTop: 4 }}
       >
@@ -110,7 +112,7 @@ function Profile() {
       {/* tab 2 */}
       <Box
         role="tabpanel"
-        component={"div"}
+        component={'div'}
         hidden={value !== 1}
         sx={{ marginTop: 4 }}
       >
@@ -121,7 +123,7 @@ function Profile() {
       {/* tab 3 */}
       <Box
         role="tabpanel"
-        component={"div"}
+        component={'div'}
         hidden={value !== 2}
         sx={{ marginTop: 4 }}
       >
@@ -130,7 +132,7 @@ function Profile() {
         </Card>
       </Box>
     </Container>
-  );
+  )
 }
 
-export default Profile;
+export default Profile

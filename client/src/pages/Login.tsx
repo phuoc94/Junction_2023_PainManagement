@@ -1,27 +1,26 @@
-import React from "react";
 import {
   Box,
-  Container,
-  Typography,
-  TextField,
   Button,
+  Card,
+  Checkbox,
+  Container,
   FormControlLabel,
   FormGroup,
-  Checkbox,
-  Card,
-} from "@mui/material";
+  TextField,
+  Typography,
+} from '@mui/material'
 
 function Login() {
   return (
     <Container maxWidth="sm">
-      <Card component={"form"} sx={{ p: "3rem 2rem" }} variant="elevation">
+      <Card component={'form'} sx={{ p: '3rem 2rem' }} variant="elevation">
         <Box
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "1rem",
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
 
-            justifyContent: "center",
+            justifyContent: 'center',
           }}
         >
           <Typography variant="h3">Log In</Typography>
@@ -46,13 +45,13 @@ function Login() {
               label="Label"
             />
           </FormGroup>
-          <Button type="submit" variant="contained" sx={{ marginTop: "1rem" }}>
+          <Button type="submit" variant="contained" sx={{ marginTop: '1rem' }}>
             Login
           </Button>
         </Box>
       </Card>
     </Container>
-  );
+  )
 }
 
-export default Login;
+export default Login

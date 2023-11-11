@@ -1,13 +1,13 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink } from 'react-router-dom'
 
 // MUI
-import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-import { SidebarItem } from "../../../@types/sidebar";
+import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
+
+import { SidebarItem } from '../../../@types/sidebar'
 
 type SideBarItemProps = {
-  item: SidebarItem;
-};
+  item: SidebarItem
+}
 
 function SideBarItem({ item }: SideBarItemProps) {
   return (
@@ -16,21 +16,21 @@ function SideBarItem({ item }: SideBarItemProps) {
       to={item.path}
       sx={{
         height: 48,
-        position: "relative",
-        textTransform: "capitalize",
-        color: "text.secondary",
+        position: 'relative',
+        textTransform: 'capitalize',
+        color: 'text.secondary',
         borderRadius: 4,
-        "&.active": {
-          color: "text.primary",
-          bgcolor: "action.selected",
-          fontWeight: "bold",
+        '&.active': {
+          color: 'text.primary',
+          bgcolor: 'action.selected',
+          fontWeight: 'bold',
         },
       }}
     >
       <ListItemIcon>{item.icon}</ListItemIcon>
       <ListItemText disableTypography primary={item.title} />
     </ListItemButton>
-  );
+  )
 }
 
-export default SideBarItem;
+export default SideBarItem
