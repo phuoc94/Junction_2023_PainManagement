@@ -87,13 +87,6 @@ export async function updateStatusForUserApproach(
 
         try {
 
-        // const userAchievement = new userAchievementModel({
-        //   userId: userApproach?.userId,
-        //   achievementId: approach?.achievement?._id
-        // })
-
-        // await userAchievement.save()
-
         await usersAchievementsServices.createAchievementByUser(userApproach?.userId as unknown as ObjectId, approach?.achievement?._id as unknown as Uint8Array)
 
         res.status(200).json(userApproach);
