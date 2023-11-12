@@ -1,13 +1,13 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // MUI
-import { Avatar, IconButton, Menu, MenuItem } from "@mui/material";
+import { Avatar, IconButton, Menu, MenuItem } from '@mui/material';
 
 // icons
-import LogoutIcon from "@mui/icons-material/Logout";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useGlobalContext } from "../../../context/GlobalContext";
+import LogoutIcon from '@mui/icons-material/Logout';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useGlobalContext } from '../../../context/useGlobalContext';
 
 function AccountPopover() {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ function AccountPopover() {
   const logoutUser = () => {
     handleClose();
     logout();
-    navigate("/");
+    navigate('/');
   };
 
   return (
@@ -58,15 +58,15 @@ function AccountPopover() {
       >
         <MenuItem
           onClick={() => {
-            navigate("/admin/profile");
+            navigate('/admin/profile');
             handleClose();
           }}
           sx={{ minWidth: 180 }}
         >
-          <AccountCircleIcon sx={{ marginRight: "0.5rem" }} /> Profile
+          <AccountCircleIcon sx={{ marginRight: '0.5rem' }} /> Profile
         </MenuItem>
         <MenuItem onClick={logoutUser}>
-          <LogoutIcon sx={{ marginRight: "0.5rem" }} /> Logout
+          <LogoutIcon sx={{ marginRight: '0.5rem' }} /> Logout
         </MenuItem>
       </Menu>
     </>

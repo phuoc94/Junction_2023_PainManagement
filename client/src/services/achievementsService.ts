@@ -1,6 +1,6 @@
-import axios from 'axios'
+import axiosInstance from '../utils/AxiosInstance'
 
-const baseUrl = `${process.env.REACT_APP_API_URL}/achievements`
+const baseUrl = "/achievements"
 type GetAllAchievementsResponse = {
   _id: string
   name: string
@@ -9,8 +9,7 @@ type GetAllAchievementsResponse = {
 }[]
 
 const getAllAchievements = async () => {
-  const { data } = await axios.get<GetAllAchievementsResponse>(baseUrl)
-  console.log(data)
+  const { data } = await axiosInstance.get<GetAllAchievementsResponse>(baseUrl)
   return data
 }
 

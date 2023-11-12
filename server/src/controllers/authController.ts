@@ -12,7 +12,9 @@ async function registerUser(
   const user = await authServices.registerUser(authRequestBody)
 
   if (user === null) {
-    next(ApiError.badRequest('Email existed already, please insert another one'))
+    next(
+      ApiError.badRequest('Email existed already, please insert another one')
+    )
     return
   }
   res.status(201).json(user)
@@ -29,12 +31,12 @@ async function logIn(
 
   if (userDataForLogIn === null) {
     next(ApiError.badRequest('Wrong credentials!'))
-    return;
+    return
   }
 
   res.status(200).json(userDataForLogIn)
 }
 export default {
   registerUser,
-  logIn
+  logIn,
 }

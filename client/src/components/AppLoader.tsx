@@ -1,4 +1,4 @@
-import { CircularProgress, Container } from '@mui/material'
+import { Container, CircularProgress } from '@mui/material';
 
 function AppLoader() {
   return (

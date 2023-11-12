@@ -3,7 +3,7 @@ import { Menu as MenuIcon } from '@mui/icons-material'
 // MUI
 import { AppBar, Box, Divider, IconButton, Stack, Toolbar } from '@mui/material'
 
-import { useThemeContext } from '../../../context/ThemeContext'
+import { useThemeContext } from '../../../context/useThemeContext'
 // utils
 import { ADMIN_SIDEBAR_WIDTH } from '../../../utils/constants'
 // components
@@ -11,7 +11,7 @@ import AccountPopover from './AccountPopover'
 
 // component props type
 type TopBarProps = {
-  handleSideBarOpen: Function
+  handleSideBarOpen: () => void
 }
 
 function TopBar({ handleSideBarOpen }: TopBarProps) {

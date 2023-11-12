@@ -1,139 +1,158 @@
-import { Box, Card, Grid, Typography } from '@mui/material'
+import { useEffect, useState } from 'react'
 
-import DetailImg from '../images/detail.png'
-import Teq1Img from '../images/teq1.png'
-import Teq2Img from '../images/teq2.png'
-import Teq3Img from '../images/teq3.png'
-import Teq4Img from '../images/teq4.png'
+import { AxiosError } from 'axios'
+import { useParams } from 'react-router-dom'
 
-const teqs = [
-  {
-    title: 'Exercise',
-    detail:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. .',
-    image: Teq1Img,
-    active: true,
-  },
-  {
-    title: 'Meditation and Relaxation',
-    detail:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. .',
-    image: Teq2Img,
-    active: false,
-  },
-  {
-    title: 'Physical Therapy or Rehabilitation',
-    detail:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. .',
-    image: Teq3Img,
-    active: false,
-  },
-  {
-    title: 'Lifestyle Changes',
-    detail:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. .',
-    image: Teq4Img,
-    active: false,
-  },
-]
+import {
+  Box,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Grid,
+  Typography,
+} from '@mui/material'
 
-function Detail() {
+import { Detail, GetSingleApproachResponse } from '../@types/approaches'
+import { Pain } from '../@types/category'
+import { getSingleCategory } from '../services/categoriesService'
+import { showApiErrorToastr } from '../utils/errorHandler'
+
+function DetailPage() {
+  const { categoryId, painId } = useParams()
+  const [pain, setPain] = useState<Pain>()
+  const [activeApproach, setActiveApproach] =
+    useState<GetSingleApproachResponse>()
+  const [activeDetail, setActiveDetail] = useState<Detail>()
+
+  useEffect(() => {
+    getData()
+  }, [])
+
+  const getData = async () => {
+    try {
+      const data = await getSingleCategory(String(categoryId))
+      const foundPain = data.pains.find((p) => p._id === painId)
+      setPain(foundPain)
+      setActiveApproach(foundPain?.approaches[0])
+      setActiveDetail(foundPain?.approaches[0].details[0])
+    } catch (e) {
+      const error = e as AxiosError
+      showApiErrorToastr(error)
+    }
+  }
+
   return (
     <Box>
       <Box padding={'2rem'}>
         <Typography variant="h3" fontWeight={'600'}>
-          Low Back Pain
+          {activeDetail?.name}
         </Typography>
-        <Typography variant="body1">
-          In this video, Dr. Andrea Furlan explains what non-specific low back
-          pain is, the difference between acute and chronic low back pain, and
-          how to prevent episodes of low back pain. She will also discuss the
-          different therapies through exercise, manual therapy, medications,
-          relaxation, lifestyle modifications and nutrition.
-        </Typography>
+        <Typography variant="body1">{activeDetail?.description}</Typography>
       </Box>
 
       <Grid container sx={{ marginTop: '2rem' }} spacing={4}>
         <Grid item md={8}>
           <Card sx={{ padding: '2rem' }}>
-            <img src={DetailImg} />
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '2rem',
-                marginBottom: '1rem',
-              }}
-            >
-              <Box
-                sx={{
-                  padding: '0.3rem',
-                  backgroundColor: '#EB459F',
-                  borderRadius: '100%',
-                }}
-              ></Box>
-              <Typography variant="body1">
-                {' '}
-                Lie on your back with knees bent and feet flat on the floor.
-              </Typography>
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-              <Box
-                sx={{
-                  padding: '0.3rem',
-                  backgroundColor: '#EB459F',
-                  borderRadius: '100%',
-                }}
-              ></Box>
-              <Typography variant="body1">
-                {' '}
-                Tighten your abdominal muscles and tilt your pelvis, pressing
-                your lower back into the floor. Hold for a few seconds, then
-                release. Repeat several times.
-              </Typography>
-            </Box>
+            <CardMedia
+              component="img"
+              sx={{ width: '50%', margin: 'auto' }}
+              image={activeDetail?.img_url || activeApproach?.img_url}
+              alt={activeDetail?.name}
+            />
           </Card>
         </Grid>
         <Grid item md={4}>
           <Typography variant="h3" fontWeight={'600'} marginBottom={'1rem'}>
             Basic Techniques
           </Typography>
-          {teqs.map((teq, index) => {
+          {pain?.approaches.map((approach) => {
             return (
               <Card
-                key={index}
+                key={approach._id}
                 sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  padding: '2rem',
-                  borderRadius: '1rem',
                   marginBottom: '1rem',
+                  borderRadius: '1rem',
                   backgroundColor: `${
-                    teq.active ? 'secondary.main' : '#f4f4f4'
+                    approach._id === activeApproach?._id
+                      ? 'secondary.main'
+                      : '#f4f4f4'
                   }`,
-                  color: `${teq.active ? '#fff' : '#000'}`,
+                  color: `${
+                    approach._id === activeApproach?._id ? '#fff' : '#000'
+                  }`,
                 }}
               >
-                <Box
+                <CardActionArea
+                  onClick={() => setActiveApproach(approach)}
                   sx={{
                     display: 'flex',
-                    flexDirection: 'column',
-                    gap: '0.5rem',
-                    padding: '1rem',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    padding: '2rem',
+                    borderRadius: '1rem',
                   }}
                 >
-                  <Typography variant="h5">{teq.title}</Typography>
-                  <Typography variant="body2">{teq.detail}</Typography>
-                </Box>
-                <img src={teq.image} />
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '0.5rem',
+                      padding: '1rem',
+                    }}
+                  >
+                    <Typography variant="h5">{approach.name}</Typography>
+                    <Typography variant="body2">
+                      {approach.description}
+                    </Typography>
+                  </Box>
+                  <img src={approach.img_url} height={'100px'} />
+                </CardActionArea>
               </Card>
             )
           })}
         </Grid>
       </Grid>
+      {activeApproach && activeApproach.details.length && (
+        <Grid container spacing={4} sx={{ marginTop: '2rem' }}>
+          {activeApproach.details.map((detail) => {
+            return (
+              <Grid item lg={3} md={4} sm={2} key={detail._id}>
+                <Card
+                  sx={{
+                    maxWidth: 345,
+                    backgroundColor: `${
+                      detail._id === activeDetail?._id ? 'info.main' : '#f4f4f4'
+                    }`,
+                    color: `${
+                      detail._id === activeDetail?._id ? '#fff' : '#000'
+                    }`,
+                  }}
+                >
+                  <CardActionArea onClick={() => setActiveDetail(detail)}>
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image={detail.img_url}
+                      alt={detail.name}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {detail.name}
+                      </Typography>
+                      <Typography variant="body2">
+                        {detail.description}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Grid>
+            )
+          })}
+        </Grid>
+      )}
     </Box>
   )
 }
 
-export default Detail
+export default DetailPage
