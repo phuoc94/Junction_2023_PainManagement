@@ -1,28 +1,18 @@
-// MUI
-import {
-  AppBar,
-  Box,
-  Divider,
-  IconButton,
-  Stack,
-  Toolbar,
-} from '@mui/material';
-
 // icons
-import { Menu as MenuIcon } from '@mui/icons-material';
+import { Menu as MenuIcon } from '@mui/icons-material'
+// MUI
+import { AppBar, Box, Divider, IconButton, Stack, Toolbar } from '@mui/material'
 
-// components
-import AccountPopover from './AccountPopover';
-
-import { useThemeContext } from '../../../context/ThemeContext'
+import { useThemeContext } from '../../../context/useThemeContext'
 // utils
-import { ADMIN_SIDEBAR_WIDTH } from '../../../utils/constants';
-import { useThemeContext } from '../../../context/useThemeContext';
+import { ADMIN_SIDEBAR_WIDTH } from '../../../utils/constants'
+// components
+import AccountPopover from './AccountPopover'
 
 // component props type
 type TopBarProps = {
-  handleSideBarOpen: () => void;
-};
+  handleSideBarOpen: () => void
+}
 
 function TopBar({ handleSideBarOpen }: TopBarProps) {
   const { theme } = useThemeContext()

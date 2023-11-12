@@ -1,62 +1,63 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
+
+import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+
 import {
   Box,
   Button,
   Card,
   Container,
-  MenuItem,
-
   FormControl,
-  InputLabel,
-  Select,
   FormHelperText,
-} from '@mui/material';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from '@mui/material'
 
-import axiosInstance from '../utils/AxiosInstance';
-
-import { useNavigate } from 'react-router-dom';
-import { CategoriesResponse } from '../@types/category';
+import { CategoriesResponse } from '../@types/category'
+import axiosInstance from '../utils/AxiosInstance'
 
 type Inputs = {
-  categoryId: string;
-  detail: string;
-};
+  categoryId: string
+  detail: string
+}
 
 function Questionary() {
-  const [categories, setCategories] = useState<CategoriesResponse>();
-  const navigate = useNavigate();
+  const [categories, setCategories] = useState<CategoriesResponse>()
+  const navigate = useNavigate()
   const {
     handleSubmit,
     register,
     control,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<Inputs>()
 
   const QuestionaryForm: SubmitHandler<Inputs> = async (values) => {
     try {
-      navigate(`/recommendation/${values.categoryId}`);
+      navigate(`/recommendation/${values.categoryId}`)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   async function getCategories() {
     try {
-      const response = await axiosInstance.get('/pains-categories');
-      setCategories(response.data);
+      const response = await axiosInstance.get('/pains-categories')
+      setCategories(response.data)
     } catch (error: unknown) {
-      console.log(error);
+      console.log(error)
     }
   }
 
   useEffect(() => {
-    getCategories();
-  }, []);
+    getCategories()
+  }, [])
 
   return (
     <Container maxWidth="sm">
-
       <Card
         component={'form'}
         sx={{ p: '3rem 2rem' }}
@@ -104,13 +105,10 @@ function Questionary() {
                 >
                   {categories?.map((category) => {
                     return (
-                      <MenuItem
-                        key={category._id}
-                        value={category._id}
-                      >
+                      <MenuItem key={category._id} value={category._id}>
                         {category.name}
                       </MenuItem>
-                    );
+                    )
                   })}
                 </Select>
                 {errors.categoryId?.message ? (

@@ -1,7 +1,7 @@
+import React, { createContext, useEffect, useState } from 'react'
 
-import React, { createContext, useEffect, useState } from 'react';
-import AppLoader from '../components/AppLoader';
-import { GlobalContextStates } from '../@types/global';
+import { GlobalContextStates } from '../@types/global'
+import AppLoader from '../components/AppLoader'
 
 // initial state
 const initialState: GlobalContextStates = {
@@ -9,15 +9,15 @@ const initialState: GlobalContextStates = {
   logout: () => {},
 }
 
-export const GlobalContext = createContext(initialState);
+export const GlobalContext = createContext(initialState)
 
 function GlobalContextProvider({ children }: React.PropsWithChildren) {
-  const [user] = useState()
+  const [user, setUser] = useState()
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (localStorage.getItem('tokenId')) {
-      fetchCurrentUser();
+      fetchCurrentUser()
     } else {
       setLoading(false)
     }
@@ -25,32 +25,29 @@ function GlobalContextProvider({ children }: React.PropsWithChildren) {
 
   const fetchCurrentUser = async () => {
     try {
-
       // TODO:: in prod, we may need to get user from the server
       // const response = await axios.get("/user/get/current", {
       //   headers: {
       //     authorization: "Bearer " + localStorage.getItem("token"),
       //   },
       // });
-      const localUser = localStorage.getItem('user');
+      const localUser = localStorage.getItem('user')
       if (localUser) {
-        setUser(JSON.parse(localUser));
+        setUser(JSON.parse(localUser))
       }
-      setLoading(false);
+      setLoading(false)
     } catch (error) {
       logout()
     }
   }
 
   const logout = () => {
+    localStorage.removeItem('tokenId')
+    localStorage.removeItem('user')
+    window.location.href = '/login'
+  }
 
-    localStorage.removeItem('tokenId');
-    localStorage.removeItem('user');
-    window.location.href = '/login';
-  };
-
-  if (loading) return <AppLoader />;
-
+  if (loading) return <AppLoader />
 
   return (
     <GlobalContext.Provider value={{ user, logout }}>
@@ -59,4 +56,4 @@ function GlobalContextProvider({ children }: React.PropsWithChildren) {
   )
 }
 
-export default GlobalContextProvider;
+export default GlobalContextProvider
