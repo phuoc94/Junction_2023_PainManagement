@@ -11,7 +11,6 @@ type GetAllAchievementsResponse = {
 
 const getAllAchievements = async () => {
   const { data } = await axiosInstance.get<GetAllAchievementsResponse>(baseUrl);
-  console.log(data);
   return data;
 };
 

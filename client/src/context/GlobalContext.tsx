@@ -1,7 +1,6 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import AppLoader from "../components/AppLoader";
-import axios from "axios";
-import { GlobalContextStates } from "../@types/global";
+import React, { createContext, useEffect, useState } from 'react';
+import AppLoader from '../components/AppLoader';
+import { GlobalContextStates } from '../@types/global';
 
 // initial state
 const initialState: GlobalContextStates = {
@@ -9,14 +8,14 @@ const initialState: GlobalContextStates = {
   logout: () => {},
 };
 
-const GlobalContext = createContext(initialState);
+export const GlobalContext = createContext(initialState);
 
 function GlobalContextProvider({ children }: React.PropsWithChildren) {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (localStorage.getItem("tokenId")) {
+    if (localStorage.getItem('tokenId')) {
       fetchCurrentUser();
     } else {
       setLoading(false);
@@ -31,7 +30,7 @@ function GlobalContextProvider({ children }: React.PropsWithChildren) {
       //     authorization: "Bearer " + localStorage.getItem("token"),
       //   },
       // });
-      const localUser = localStorage.getItem("user");
+      const localUser = localStorage.getItem('user');
       if (localUser) {
         setUser(JSON.parse(localUser));
       }
@@ -42,19 +41,18 @@ function GlobalContextProvider({ children }: React.PropsWithChildren) {
   };
 
   const logout = () => {
-    localStorage.removeItem("tokenId");
-    localStorage.removeItem("user");
-    window.location.href = "/login";
+    localStorage.removeItem('tokenId');
+    localStorage.removeItem('user');
+    window.location.href = '/login';
   };
 
   if (loading) return <AppLoader />;
+
   return (
     <GlobalContext.Provider value={{ user, logout }}>
       {children}
     </GlobalContext.Provider>
   );
 }
-
-export const useGlobalContext = () => useContext(GlobalContext);
 
 export default GlobalContextProvider;

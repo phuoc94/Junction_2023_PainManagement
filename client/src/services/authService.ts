@@ -29,16 +29,13 @@ const login = async (values: LoginRequest) => {
       LoginRequest,
       AxiosResponse<LoginResponse>
     >(`${baseUrl}/login`, values);
-    console.log("Login success, response data:", data); // Remove this console after you understand the data structure.
     localStorage.setItem("tokenId", data.tokenId);
     localStorage.setItem(
       "user",
       JSON.stringify({ name: data.name, email: data.email })
     );
-    // You can also store the name and email to global context or redux so you can use it for the profile page
   } catch (e: unknown) {
     const error: AxiosError = e as AxiosError;
-    console.log(error.response?.data); // error.response?.data: {message: "wrong message"}
     throw error;
   }
 };

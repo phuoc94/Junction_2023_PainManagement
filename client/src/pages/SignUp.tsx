@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Box,
   Container,
@@ -9,12 +8,12 @@ import {
   FormGroup,
   Checkbox,
   Card,
-} from "@mui/material";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { signUp } from "../services/authService";
-import { AxiosError } from "axios";
-import { showApiErrorToastr, showCustomToastr } from "../utils/errorHandler";
-import { useNavigate } from "react-router-dom";
+} from '@mui/material';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { signUp } from '../services/authService';
+import { AxiosError } from 'axios';
+import { showApiErrorToastr, showCustomToastr } from '../utils/errorHandler';
+import { useNavigate } from 'react-router-dom';
 
 type Inputs = {
   name: string;
@@ -33,8 +32,8 @@ function SignUp() {
   const signUpForm: SubmitHandler<Inputs> = async (values) => {
     try {
       await signUp(values);
-      showCustomToastr("Registration success!", "success");
-      navigate("/login");
+      showCustomToastr('Registration success!', 'success');
+      navigate('/login');
     } catch (e) {
       const error = e as AxiosError;
       showApiErrorToastr(error);
@@ -43,18 +42,18 @@ function SignUp() {
   return (
     <Container maxWidth="sm">
       <Card
-        component={"form"}
-        sx={{ p: "3rem 2rem" }}
+        component={'form'}
+        sx={{ p: '3rem 2rem' }}
         variant="elevation"
         onSubmit={handleSubmit(signUpForm)}
       >
         <Box
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "1rem",
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
 
-            justifyContent: "center",
+            justifyContent: 'center',
           }}
         >
           <Typography variant="h3">Create An Account</Typography>
@@ -63,15 +62,18 @@ function SignUp() {
             maxRows={4}
             fullWidth
             placeholder="Enter Username"
-            {...register("name", {
+            {...register('name', {
               required: {
                 value: true,
-                message: "name is required",
+                message: 'name is required',
               },
             })}
           />
           {errors.name && (
-            <Typography variant="caption" color={"red"}>
+            <Typography
+              variant="caption"
+              color={'red'}
+            >
               {errors.name?.message}
             </Typography>
           )}
@@ -80,15 +82,18 @@ function SignUp() {
             maxRows={4}
             fullWidth
             placeholder="Enter Email"
-            {...register("email", {
+            {...register('email', {
               required: {
                 value: true,
-                message: "Email is required",
+                message: 'Email is required',
               },
             })}
           />
           {errors.email && (
-            <Typography variant="caption" color={"red"}>
+            <Typography
+              variant="caption"
+              color={'red'}
+            >
               {errors.name?.message}
             </Typography>
           )}
@@ -98,15 +103,18 @@ function SignUp() {
             maxRows={4}
             fullWidth
             placeholder="Enter Password"
-            {...register("password", {
+            {...register('password', {
               required: {
                 value: true,
-                message: "Password is required",
+                message: 'Password is required',
               },
             })}
           />
           {errors.password && (
-            <Typography variant="caption" color={"red"}>
+            <Typography
+              variant="caption"
+              color={'red'}
+            >
               {errors.name?.message}
             </Typography>
           )}
@@ -116,7 +124,11 @@ function SignUp() {
               label="Label"
             />
           </FormGroup>
-          <Button type="submit" variant="contained" sx={{ marginTop: "1rem" }}>
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ marginTop: '1rem' }}
+          >
             SignUp
           </Button>
         </Box>
