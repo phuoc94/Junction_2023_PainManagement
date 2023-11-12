@@ -20,16 +20,18 @@ export async function createUserApproach(
     return
   }
 
-  const approach = await approachesServices.findById(approachId)
-
-  if (approach == null) {
-    next(
-      ApiError.badRequest('This approach with this approach id does not exist!')
-    )
-    return
-  }
-
   try {
+    const approach = await approachesServices.findById(approachId)
+
+    if (approach == null) {
+      next(
+        ApiError.badRequest(
+          'This approach with this approach id does not exist!'
+        )
+      )
+      return
+    }
+
     const newUserApproach = await UsersServices.createUserApproach(
       userId,
       approachId
