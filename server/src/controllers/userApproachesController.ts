@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express'
-import mongoose from 'mongoose'
+import mongoose, { ObjectId } from 'mongoose'
 
 import userApproachModel from '../models/userApproachModel.js'
 import UsersServices from '../services/usersServices.js'
@@ -7,6 +7,8 @@ import { ApiError } from '../utils/ApiError.js'
 import userAchievementModel from '../models/userAchievementModel.js'
 import approachModel from '../models/approachModel.js'
 import approachesServices from '../services/approachesServices.js'
+import userApproachesService from '../services/userApproachesService.js'
+import usersAchievementsServices from '../services/usersAchievementsServices.js'
 
 export async function createUserApproach(
   req: Request,
@@ -22,7 +24,7 @@ export async function createUserApproach(
   }
 
   try {
-    await approachModel.findById(approachId);
+    await approachesServices.findById(approachId);
 
     const newUserApproach = await UsersServices.createUserApproach(
       userId,
@@ -69,29 +71,30 @@ export async function updateStatusForUserApproach(
   }
   
   try {
-    let userApproach = await userApproachModel.findById(userApproachId);
+    let userApproach = await userApproachesService.findById(userApproachId);
 
     if (userApproach?.status === "not_started") {
-      userApproach = await userApproachModel.findByIdAndUpdate(userApproachId, { status: "in_process"}, { new: true });
+      userApproach = await userApproachesService.findByIdAndUpdateForStatusInProcess(userApproachId);
 
       res.status(200).json(userApproach);
       return;
     } else if (userApproach?.status === "in_process") {
-      userApproach = await userApproachModel.findByIdAndUpdate(userApproachId, { status: "completed"}, { new: true });
+      userApproach = await userApproachesService.findByIdAndUpdateForStatusInCompleted(userApproachId);
 
       try {
 
-        let approach = await approachModel.findById(userApproach?.approachId);
+        let approach = await approachesServices.findById(userApproach?.approachId as unknown as ObjectId);
 
         try {
 
-        const userAchievement = new userAchievementModel({
-          userId: userApproach?.userId,
-          achievementId: approach?.achievement?._id
-        })
+        // const userAchievement = new userAchievementModel({
+        //   userId: userApproach?.userId,
+        //   achievementId: approach?.achievement?._id
+        // })
 
-        await userAchievement.save()
+        // await userAchievement.save()
 
+        await usersAchievementsServices.createAchievementByUser(userApproach?.userId as unknown as ObjectId, approach?.achievement?._id as unknown as Uint8Array)
 
         res.status(200).json(userApproach);
 
