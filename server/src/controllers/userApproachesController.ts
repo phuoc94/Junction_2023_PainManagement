@@ -20,9 +20,16 @@ export async function createUserApproach(
     return
   }
 
-  try {
-    await approachesServices.findById(approachId)
+  const approach = await approachesServices.findById(approachId)
 
+  if (approach == null) {
+    next(
+      ApiError.badRequest('This approach with this approach id does not exist!')
+    )
+    return
+  }
+
+  try {
     const newUserApproach = await UsersServices.createUserApproach(
       userId,
       approachId
@@ -34,9 +41,7 @@ export async function createUserApproach(
     }
     res.status(201).json(newUserApproach)
   } catch (err) {
-    next(
-      ApiError.notFound('This approach with this approach id does not exist!')
-    )
+    next(ApiError.internal('Somthing wrong happed'))
   }
 }
 
