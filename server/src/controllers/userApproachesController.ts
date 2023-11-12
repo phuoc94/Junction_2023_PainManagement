@@ -1,10 +1,14 @@
 import type { NextFunction, Request, Response } from 'express'
-import mongoose from 'mongoose'
+import mongoose, { ObjectId } from 'mongoose'
 
 import userApproachModel from '../models/userApproachModel.js'
-import painsServices from '../services/painsServices.js'
 import UsersServices from '../services/usersServices.js'
 import { ApiError } from '../utils/ApiError.js'
+import userAchievementModel from '../models/userAchievementModel.js'
+import approachModel from '../models/approachModel.js'
+import approachesServices from '../services/approachesServices.js'
+import userApproachesService from '../services/userApproachesService.js'
+import usersAchievementsServices from '../services/usersAchievementsServices.js'
 
 export async function createUserApproach(
   req: Request,
@@ -14,18 +18,29 @@ export async function createUserApproach(
   const { userId } = req.params
   const { approachId } = req.body
 
+  if (approachId === undefined || approachId.length === 0) {
+    next(ApiError.badRequest('approachId is missing'))
+    return
+  }
+
   try {
-    if (approachId === undefined) {
-      next(ApiError.badRequest('approachId is missing'))
-    }
+    await approachesServices.findById(approachId);
+
     const newUserApproach = await UsersServices.createUserApproach(
       userId,
       approachId
     )
-    res.json(newUserApproach)
-  } catch (error) {
-    next(ApiError.internal('something wrong happed'))
+  
+    if (newUserApproach === null) {
+      next(ApiError.badRequest('This approach cannot be saved!'))
+      return
+    }
+    res.status(201).json(newUserApproach);
+  } 
+  catch (err) {
+    next(ApiError.notFound('This approach with this approach id does not exist!'));
   }
+
 }
 
 export async function findAllUserApproaches(
@@ -48,67 +63,49 @@ export async function updateStatusForUserApproach(
   res: Response,
   next: NextFunction
 ): Promise<void> {
-  const { userId } = req.params
-  const { approachId, painId } = req.body
+  const { userApproachId } = req.body;
 
-  if (
-    userId === null ||
-    approachId === null ||
-    painId === null ||
-    approachId.length === 0 ||
-    painId.length === 0 ||
-    userId.length === 0
-  ) {
-    next(ApiError.badRequest('Missing user id, approach id, or pain id'))
-    return
+  if (userApproachId.length === 0) {
+    next(ApiError.notFound("There is no user approach id given"));
+    return;
   }
-  const pain = await painsServices.findById(painId)
+  
+  try {
+    let userApproach = await userApproachesService.findById(userApproachId);
 
-  if (pain === null) {
-    next(ApiError.notFound('Cannot find this pain with this pain id'))
-    return
+    if (userApproach?.status === "not_started") {
+      userApproach = await userApproachesService.findByIdAndUpdateForStatusInProcess(userApproachId);
+
+      res.status(200).json(userApproach);
+      return;
+    } else if (userApproach?.status === "in_process") {
+      userApproach = await userApproachesService.findByIdAndUpdateForStatusInCompleted(userApproachId);
+
+      try {
+
+        let approach = await approachesServices.findById(userApproach?.approachId as unknown as ObjectId);
+
+        try {
+
+        await usersAchievementsServices.createAchievementByUser(userApproach?.userId as unknown as ObjectId, approach?.achievement?._id as unknown as Uint8Array)
+
+        res.status(200).json(userApproach);
+
+        } catch (err) {
+          next(ApiError.notFound("Cannot save this user achievement!"));
+        }
+
+      } catch (err) {
+        next(ApiError.notFound("Cannot find this approach with this approach id"));
+      }
+    } else if (userApproach?.status === "completed") {
+      res.status(200).json(userApproach)
+      return;
+    }
+
+  } catch (err) {
+    next(ApiError.notFound("Cannot find this user approach id"));
   }
-
-  const approaches = pain?.approachs
-
-  if (!approaches?.includes(new mongoose.Types.ObjectId(approachId))) {
-    next(ApiError.notFound(`This approach does not belong to this pain!`))
-    return
-  }
-
-  let singleUserApproach = await userApproachModel.findOne({
-    userId: userId,
-    approachId: approachId,
-  })
-
-  if (singleUserApproach === null) {
-    next(
-      ApiError.notFound(
-        'There is no user approach with this user id and approach id'
-      )
-    )
-    return
-  }
-
-  switch (singleUserApproach?.status) {
-    case 'not_started':
-      singleUserApproach = await userApproachModel.findOneAndUpdate(
-        { userId, approachId },
-        { status: 'in_process' }
-      )
-      break
-    case 'in_process':
-      singleUserApproach = await userApproachModel.findOneAndUpdate(
-        { userId, approachId },
-        { status: 'completed' }
-      )
-      break
-    case 'completed':
-      break
-    default:
-      break
-  }
-  res.status(200).json(singleUserApproach)
 }
 
 export default {
