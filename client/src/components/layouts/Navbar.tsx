@@ -8,8 +8,6 @@ import {
   Avatar,
   IconButton,
   MenuItem,
-  Divider,
-  AppBar,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 

@@ -13,17 +13,19 @@ export type AddApproachToMeResponse = {
   status: string;
 };
 
-type Detail = {
+export type Detail = {
   _id: string;
   name: string;
   description: string;
   img_url: string;
 };
 
-export type GetAllApproachesResponse = {
+export type GetSingleApproachResponse = {
   _id: string;
   name: string;
   description: string;
   details: Detail[];
   img_url: string;
-}[];
+};
+
+export type GetAllApproachesResponse = GetSingleApproachResponse[];

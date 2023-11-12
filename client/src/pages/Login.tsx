@@ -28,13 +28,11 @@ function Login() {
     formState: { errors },
   } = useForm<LoginFormInputs>();
 
-  const navigate = useNavigate();
-
   const signInForm: SubmitHandler<LoginFormInputs> = async (values) => {
     try {
       await login(values);
       showCustomToastr("Login success!", "success");
-      navigate("/");
+      window.location.href = "/";
     } catch (e) {
       const error = e as AxiosError;
       showApiErrorToastr(error);
