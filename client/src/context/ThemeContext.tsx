@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useMemo } from "react";
+import React, { createContext, useCallback, useMemo } from 'react';
 
 // MUI
 import {
@@ -6,31 +6,31 @@ import {
   CssBaseline,
   createTheme,
   ThemeOptions,
-} from "@mui/material";
+} from '@mui/material';
 
 // types
-import { ThemeContextStates, ThemeMode } from "../@types/theme";
+import { ThemeContextStates, ThemeMode } from '../@types/theme';
 
 // theme
-import createPalette from "../theme/palette";
-import typography from "../theme/typography";
+import createPalette from '../theme/palette';
+import typography from '../theme/typography';
 
 // custom hooks
-import { useLocalStorage } from "../hooks/useLocalStorage";
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 // initial state
 const initialState: ThemeContextStates = {
-  themeMode: "light",
+  themeMode: 'light',
   theme: createTheme(),
   onThemeModeChange: () => {},
 };
 // create context
-const ThemeContext = createContext(initialState);
+export const ThemeContext = createContext(initialState);
 
 function ThemeContextProvider({ children }: React.PropsWithChildren) {
   // theme mode
   const [themeMode, setThemeMode] = useLocalStorage<ThemeMode>(
-    "themeMode",
+    'themeMode',
     initialState.themeMode
   );
 
@@ -47,9 +47,12 @@ function ThemeContextProvider({ children }: React.PropsWithChildren) {
   const theme = createTheme(themeOptions);
 
   // toggle theme mode
-  const onThemeModeChange = useCallback((mode: ThemeMode) => {
-    setThemeMode(mode);
-  }, []);
+  const onThemeModeChange = useCallback(
+    (mode: ThemeMode) => {
+      setThemeMode(mode);
+    },
+    [setThemeMode]
+  );
 
   // context value
   const values: ThemeContextStates = useMemo(
@@ -70,5 +73,4 @@ function ThemeContextProvider({ children }: React.PropsWithChildren) {
   );
 }
 
-export const useThemeContext = () => useContext(ThemeContext);
 export default ThemeContextProvider;

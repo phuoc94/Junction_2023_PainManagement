@@ -13,11 +13,9 @@ const getMyAchievements = async () => {
       `${baseUrl}/achievements`,
       { headers: { Authorization: `Bearer ${tokenId}` } }
     );
-    console.log(data);
     return data;
   } catch (e: unknown) {
     const error: AxiosError = e as AxiosError;
-    console.log(error.response?.data);
     throw error;
   }
 };
@@ -26,15 +24,11 @@ const getMyApproaches = async () => {
   try {
     const { data } = await axiosInstance.get<GetMyApproaches>(
       `${baseUrl}/approaches`,
-      {
-        headers: { Authorization: `Bearer ${tokenId}` },
-      }
+      { headers: { Authorization: `Bearer ${tokenId}` } }
     );
-    console.log(data);
     return data;
   } catch (e: unknown) {
     const error: AxiosError = e as AxiosError;
-    console.log(error.response?.data);
     throw error;
   }
 };
@@ -49,11 +43,9 @@ const addApproachToMe = async (approachId: string) => {
       { approachId },
       { headers: { Authorization: `Bearer ${tokenId}` } }
     );
-    console.log(data);
     return data;
   } catch (e: unknown) {
     const error: AxiosError = e as AxiosError;
-    console.log(error.response?.data);
     throw error;
   }
 };

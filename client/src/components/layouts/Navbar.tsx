@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Box,
   Button,
@@ -8,16 +8,14 @@ import {
   Avatar,
   IconButton,
   MenuItem,
-  Divider,
-  AppBar,
-} from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+} from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
 
-import LogoImg from "../../images/logo.png";
-import { useGlobalContext } from "../../context/GlobalContext";
+import LogoImg from '../../images/logo.png';
+import { useGlobalContext } from '../../context/useGlobalContext';
 
-import LogoutIcon from "@mui/icons-material/Logout";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import LogoutIcon from '@mui/icons-material/Logout';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 function Navbar() {
   const navigate = useNavigate();
@@ -38,28 +36,32 @@ function Navbar() {
     <>
       <Box
         sx={{
-          margin: "0px",
-          padding: "0.5rem ",
-          display: "flex",
-          fontSize: "20px",
-          fontWeight: "500",
-          flexDirection: "row",
-          justifyContent: "space-between",
+          margin: '0px',
+          padding: '0.5rem ',
+          display: 'flex',
+          fontSize: '20px',
+          fontWeight: '500',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
         }}
       >
         <Box
           sx={{
-            fontSize: "18px",
-            fontWeight: "500",
-            display: "flex",
-            flexDirection: "row",
-            gap: "2rem",
-            justifyContent: "center",
-            alignItems: "center",
+            fontSize: '18px',
+            fontWeight: '500',
+            display: 'flex',
+            flexDirection: 'row',
+            gap: '2rem',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <img src={LogoImg} alt="logo" width={32} />
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <img
+              src={LogoImg}
+              alt="logo"
+              width={32}
+            />
             <Typography variant="h5">
               <Link to="/">Chronic</Link>
             </Typography>
@@ -75,7 +77,7 @@ function Navbar() {
           </Typography>
         </Box>
         {user ? (
-          <Box sx={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+          <Box sx={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
             <Tooltip title={user.name}>
               <IconButton onClick={handleMenu}>
                 <Avatar
@@ -102,21 +104,24 @@ function Navbar() {
               <MenuItem
                 onClick={() => {
                   handleClose();
-                  navigate("/profile");
+                  navigate('/profile');
                 }}
                 sx={{ minWidth: 180 }}
               >
-                <AccountCircleIcon sx={{ marginRight: "0.5rem" }} /> Profile
+                <AccountCircleIcon sx={{ marginRight: '0.5rem' }} /> Profile
               </MenuItem>
               <MenuItem onClick={() => logout()}>
-                <LogoutIcon sx={{ marginRight: "0.5rem" }} /> Logout
+                <LogoutIcon sx={{ marginRight: '0.5rem' }} /> Logout
               </MenuItem>
             </Menu>
           </Box>
         ) : (
           <Box>
             <Link to="/login">
-              <Button variant="contained" sx={{ marginRight: "2rem" }}>
+              <Button
+                variant="contained"
+                sx={{ marginRight: '2rem' }}
+              >
                 Sign In
               </Button>
             </Link>

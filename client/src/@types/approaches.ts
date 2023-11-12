@@ -1,9 +1,13 @@
 export type GetMyApproaches = {
   _id: string;
-  name: string;
-  description: string;
-  img_url: string;
   status: string;
+  approaches: {
+    _id: string;
+    name: string;
+    description: string;
+    achievement: string;
+    img_url: string;
+  };
 }[];
 
 export type AddApproachToMeResponse = {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   Container,
   Card,
@@ -11,18 +11,13 @@ import {
   InputLabel,
   Select,
   FormHelperText,
-} from "@mui/material";
-import {
-  useForm,
-  SubmitHandler,
-  FieldValues,
-  Controller,
-} from "react-hook-form";
+} from '@mui/material';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 
-import axiosInstance from "../utils/AxiosInstance";
+import axiosInstance from '../utils/AxiosInstance';
 
-import { useNavigate } from "react-router-dom";
-import { CategoriesResponse } from "../@types/category";
+import { useNavigate } from 'react-router-dom';
+import { CategoriesResponse } from '../@types/category';
 
 type Inputs = {
   categoryId: string;
@@ -34,7 +29,6 @@ function Questionary() {
   const navigate = useNavigate();
   const {
     handleSubmit,
-    reset,
     register,
     control,
     formState: { errors },
@@ -50,7 +44,7 @@ function Questionary() {
 
   async function getCategories() {
     try {
-      const response = await axiosInstance.get("/pains-categories");
+      const response = await axiosInstance.get('/pains-categories');
       setCategories(response.data);
     } catch (error: unknown) {
       console.log(error);
@@ -64,26 +58,26 @@ function Questionary() {
   return (
     <Container maxWidth="sm">
       <Card
-        component={"form"}
-        sx={{ p: "3rem 2rem" }}
+        component={'form'}
+        sx={{ p: '3rem 2rem' }}
         variant="elevation"
         onSubmit={handleSubmit(QuestionaryForm)}
       >
         <Box
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "1rem",
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
 
-            justifyContent: "center",
+            justifyContent: 'center',
           }}
         >
           <Typography
             variant="h4"
-            fontWeight={"600"}
-            marginBottom={"2rem"}
-            color={"secondary.main"}
-            textAlign={"center"}
+            fontWeight={'600'}
+            marginBottom={'2rem'}
+            color={'secondary.main'}
+            textAlign={'center'}
           >
             What kind of pain you have?
           </Typography>
@@ -100,17 +94,20 @@ function Questionary() {
                   {...field}
                   label="Select a category"
                   variant="outlined"
-                  {...register("categoryId", {
+                  {...register('categoryId', {
                     required: {
                       value: true,
-                      message: "category is required",
+                      message: 'category is required',
                     },
                   })}
                   error={Boolean(errors.categoryId)}
                 >
                   {categories?.map((category) => {
                     return (
-                      <MenuItem key={category._id} value={category._id}>
+                      <MenuItem
+                        key={category._id}
+                        value={category._id}
+                      >
                         {category.name}
                       </MenuItem>
                     );
@@ -131,10 +128,10 @@ function Questionary() {
             error={Boolean(errors.detail)}
             helperText={errors.detail?.message}
             placeholder="describe what kind of pain do you have. here..."
-            {...register("detail", {
+            {...register('detail', {
               required: {
                 value: true,
-                message: "detail is required",
+                message: 'detail is required',
               },
             })}
           />
@@ -142,7 +139,7 @@ function Questionary() {
           <Button
             type="submit"
             variant="contained"
-            sx={{ marginTop: "1rem", backgroundColor: "secondary.main" }}
+            sx={{ marginTop: '1rem', backgroundColor: 'secondary.main' }}
           >
             Submit
           </Button>
