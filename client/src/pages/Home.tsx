@@ -34,7 +34,7 @@ const companies = [
   Company3Img,
   Company4Img,
   Company5Img,
-];
+]
 const services = [
   {
     title: 'Quick questionnaire',
@@ -51,7 +51,7 @@ const services = [
     detail: 'The gradual accumulation of information about  ',
     image: Med3Img,
   },
-];
+]
 
 function Home() {
   const navigate = useNavigate();
@@ -138,6 +138,7 @@ function Home() {
                     gap: '1rem',
                   }}
                 >
+
                   <Typography
                     variant="h5"
                     sx={{ fontWeight: '700' }}
@@ -165,6 +166,7 @@ function Home() {
               </Box>
             </Box>
           </Grid>
+
           <Grid
             item
             xs={6}
@@ -197,6 +199,7 @@ function Home() {
       >
         {companies.map((company, index) => {
           return (
+
             <Grid
               item
               xs={2}
@@ -205,10 +208,11 @@ function Home() {
             >
               <img src={company} />
             </Grid>
-          );
+          )
         })}
       </Grid>
       <Box sx={{ margin: '2rem 0rem', padding: '2rem' }}>
+
         <Grid
           container
           sx={{ padding: '2rem 4rem 0rem 4rem' }}
@@ -234,6 +238,7 @@ function Home() {
           </Grid>
           <Grid xs={8}></Grid>
         </Grid>
+
         <Grid
           container
           spacing={6}
@@ -256,6 +261,7 @@ function Home() {
                     cursor: 'pointer',
                   }}
                 >
+
                   <img
                     src={service.image}
                     height={'50px'}
@@ -272,6 +278,7 @@ function Home() {
                     padding={'0.1rem'}
                     width={'50px'}
                   ></Box>
+
                   <Typography
                     variant="body1"
                     color={'#737373'}
@@ -280,7 +287,7 @@ function Home() {
                   </Typography>
                 </Card>
               </Grid>
-            );
+            )
           })}
         </Grid>
       </Box>
@@ -303,6 +310,7 @@ function Home() {
           md={6}
           sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
         >
+
           <Typography
             variant="h4"
             fontWeight={'700'}
@@ -344,6 +352,7 @@ function Home() {
         </Grid>
       </Grid>
       <Box padding={'2rem'}>
+
         <Grid
           container
           sx={{ padding: '2rem 0rem' }}
@@ -373,6 +382,7 @@ function Home() {
         </Grid>
         <Grid
           container
+
           marginBottom={'2rem'}
           rowSpacing={4}
           columnSpacing={2}
@@ -381,6 +391,7 @@ function Home() {
             return (
               <Grid
                 item
+
                 lg={3}
                 md={4}
                 sm={2}
@@ -414,7 +425,7 @@ function Home() {
                   </CardActionArea>
                 </Card>
               </Grid>
-            );
+            )
           })}
         </Grid>
       </Box>
@@ -427,6 +438,7 @@ function Home() {
         }}
       >
         <Box width={'50%'}>
+
           <Typography
             variant="h2"
             textAlign={'center'}
@@ -475,7 +487,7 @@ function Home() {
         </Box>
       </Box>
     </Box>
-  );
+  )
 }
 
-export default Home;
+export default Home

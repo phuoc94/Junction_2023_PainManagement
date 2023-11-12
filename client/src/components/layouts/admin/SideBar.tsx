@@ -54,19 +54,19 @@ const sidebarItems: SidebarItem[] = [
     path: '/admin/exercies',
     icon: <ShoppingBag />,
   },
-];
+]
 
 // component props type
 type SideBarProps = {
-  isOpen: boolean;
-  handleClose: () => void;
-};
+  isOpen: boolean
+  handleClose: Function
+}
 
 function SideBar({ isOpen, handleClose }: SideBarProps) {
-  const { theme } = useThemeContext();
+  const { theme } = useThemeContext()
 
   // auth user state
-  const { user } = useGlobalContext();
+  const { user } = useGlobalContext()
 
   // sidebar content
   const renderContent = (
@@ -152,7 +152,7 @@ function SideBar({ isOpen, handleClose }: SideBarProps) {
       </Box>
       <Box sx={{ flexGrow: 1 }} />
     </Box>
-  );
+  )
 
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
 
@@ -196,7 +196,7 @@ function SideBar({ isOpen, handleClose }: SideBarProps) {
         </Drawer>
       )}
     </Box>
-  );
+  )
 }
 
-export default SideBar;
+export default SideBar

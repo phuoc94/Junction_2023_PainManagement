@@ -1,9 +1,9 @@
 import {
   Box,
-  Container,
-  Typography,
-  TextField,
   Button,
+  Card,
+  Checkbox,
+  Container,
   FormControlLabel,
   FormGroup,
   Checkbox,
@@ -38,7 +38,7 @@ function SignUp() {
       const error = e as AxiosError;
       showApiErrorToastr(error);
     }
-  };
+  }
   return (
     <Container maxWidth="sm">
       <Card
@@ -134,7 +134,7 @@ function SignUp() {
         </Box>
       </Card>
     </Container>
-  );
+  )
 }
 
-export default SignUp;
+export default SignUp

@@ -14,7 +14,7 @@ function AppLoader() {
     >
       <CircularProgress />
     </Container>
-  );
+  )
 }
 
-export default AppLoader;
+export default AppLoader

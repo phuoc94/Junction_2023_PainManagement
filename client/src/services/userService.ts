@@ -5,7 +5,7 @@ import { GetMyAchievements } from "../@types/achievements";
 
 const baseUrl = "/users";
 
-const tokenId = localStorage.getItem("tokenId");
+const tokenId = localStorage.getItem('tokenId')
 
 const getMyAchievements = async () => {
   try {

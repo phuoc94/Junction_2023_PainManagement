@@ -14,6 +14,7 @@ import { Menu as MenuIcon } from '@mui/icons-material';
 // components
 import AccountPopover from './AccountPopover';
 
+import { useThemeContext } from '../../../context/ThemeContext'
 // utils
 import { ADMIN_SIDEBAR_WIDTH } from '../../../utils/constants';
 import { useThemeContext } from '../../../context/useThemeContext';
@@ -24,7 +25,7 @@ type TopBarProps = {
 };
 
 function TopBar({ handleSideBarOpen }: TopBarProps) {
-  const { theme } = useThemeContext();
+  const { theme } = useThemeContext()
 
   return (
     <AppBar
@@ -78,7 +79,7 @@ function TopBar({ handleSideBarOpen }: TopBarProps) {
       </Toolbar>
       <Divider light />
     </AppBar>
-  );
+  )
 }
 
-export default TopBar;
+export default TopBar

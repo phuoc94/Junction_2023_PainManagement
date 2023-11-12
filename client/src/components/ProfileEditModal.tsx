@@ -63,7 +63,7 @@ function ProfileEditModal({ isOpen, onClose }: ProfileEditModalProps) {
         </Button>
       </DialogActions>
     </Dialog>
-  );
+  )
 }
 
-export default ProfileEditModal;
+export default ProfileEditModal

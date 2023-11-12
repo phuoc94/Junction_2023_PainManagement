@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import {
-  Container,
-  Card,
   Box,
-  TextField,
-  Typography,
   Button,
+  Card,
+  Container,
   MenuItem,
+
   FormControl,
   InputLabel,
   Select,
@@ -57,6 +56,7 @@ function Questionary() {
 
   return (
     <Container maxWidth="sm">
+
       <Card
         component={'form'}
         sx={{ p: '3rem 2rem' }}
@@ -146,7 +146,7 @@ function Questionary() {
         </Box>
       </Card>
     </Container>
-  );
+  )
 }
 
-export default Questionary;
+export default Questionary

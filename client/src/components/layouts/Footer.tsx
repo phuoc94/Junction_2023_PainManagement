@@ -126,7 +126,7 @@ function Footer() {
         </Grid>
       </Grid>
     </>
-  );
+  )
 }
 
-export default Footer;
+export default Footer

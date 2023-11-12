@@ -1,15 +1,15 @@
 const pxToRem = (value: number) => {
-  return `${value / 16}rem`;
-};
+  return `${value / 16}rem`
+}
 
 const responsiveFontSizes = ({
   sm,
   md,
   lg,
 }: {
-  sm: number;
-  md: number;
-  lg: number;
+  sm: number
+  md: number
+  lg: number
 }) => {
   return {
     '@media (min-width:600px)': {
@@ -21,8 +21,8 @@ const responsiveFontSizes = ({
     '@media (min-width:1200px)': {
       fontSize: pxToRem(lg),
     },
-  };
-};
+  }
+}
 
 const typography = {
   fontFamily: 'Roboto',
@@ -99,6 +99,6 @@ const typography = {
     fontSize: pxToRem(14),
     textTransform: 'capitalize',
   },
-} as const;
+} as const
 
-export default typography;
+export default typography

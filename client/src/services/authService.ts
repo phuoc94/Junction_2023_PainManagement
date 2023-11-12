@@ -9,9 +9,9 @@ type AuthBase = {
   password: string;
 };
 
-type SignUpRequest = AuthBase & { name: string };
+type SignUpRequest = AuthBase & { name: string }
 
-type LoginRequest = AuthBase;
+type LoginRequest = AuthBase
 
 type LoginResponse = AuthBase & { tokenId: string; name?: string };
 
@@ -38,6 +38,6 @@ const login = async (values: LoginRequest) => {
     const error: AxiosError = e as AxiosError;
     throw error;
   }
-};
+}
 
 export { signUp, login };

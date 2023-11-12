@@ -98,11 +98,11 @@ function Recommandation() {
                 </Box>
               </CardActionArea>
             </Card>
-          );
+          )
         })}
       </Container>
     </Box>
-  );
+  )
 }
 
-export default Recommandation;
+export default Recommandation

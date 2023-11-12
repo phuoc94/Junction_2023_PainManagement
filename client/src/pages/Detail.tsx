@@ -43,6 +43,7 @@ function DetailPage() {
 
   return (
     <Box>
+
       <Box padding={"2rem"}>
         <Typography variant="h3" fontWeight={"600"}>
           {activeDetail?.name}
@@ -50,8 +51,9 @@ function DetailPage() {
         <Typography variant="body1">{activeDetail?.description}</Typography>
       </Box>
 
-      <Grid container sx={{ marginTop: "2rem" }} spacing={4}>
+      <Grid container sx={{ marginTop: '2rem' }} spacing={4}>
         <Grid item md={8}>
+
           <Card sx={{ padding: "2rem" }}>
             <CardMedia
               component="img"
@@ -62,7 +64,7 @@ function DetailPage() {
           </Card>
         </Grid>
         <Grid item md={4}>
-          <Typography variant="h3" fontWeight={"600"} marginBottom={"1rem"}>
+          <Typography variant="h3" fontWeight={'600'} marginBottom={'1rem'}>
             Basic Techniques
           </Typography>
           {pain?.approaches.map((approach) => {
@@ -70,6 +72,7 @@ function DetailPage() {
               <Card
                 key={approach._id}
                 sx={{
+
                   marginBottom: "1rem",
                   borderRadius: "1rem",
                   backgroundColor: `${
@@ -85,6 +88,7 @@ function DetailPage() {
                 <CardActionArea
                   onClick={() => setActiveApproach(approach)}
                   sx={{
+
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
@@ -108,7 +112,7 @@ function DetailPage() {
                   <img src={approach.img_url} height={"100px"} />
                 </CardActionArea>
               </Card>
-            );
+            )
           })}
         </Grid>
       </Grid>
@@ -151,7 +155,7 @@ function DetailPage() {
         </Grid>
       )}
     </Box>
-  );
+  )
 }
 
 export default DetailPage;

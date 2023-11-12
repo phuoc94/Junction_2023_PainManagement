@@ -5,8 +5,8 @@ import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { SidebarItem } from '../../../@types/sidebar';
 
 type SideBarItemProps = {
-  item: SidebarItem;
-};
+  item: SidebarItem
+}
 
 function SideBarItem({ item }: SideBarItemProps) {
   return (
@@ -32,7 +32,7 @@ function SideBarItem({ item }: SideBarItemProps) {
         primary={item.title}
       />
     </ListItemButton>
-  );
+  )
 }
 
-export default SideBarItem;
+export default SideBarItem

@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import {
   Alert,
   Avatar,
@@ -12,6 +14,7 @@ import {
   Tab,
   Tabs,
   Typography,
+
 } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { AxiosError } from 'axios';
@@ -54,6 +57,7 @@ function Profile() {
     <Container sx={{ marginTop: 4 }}>
       <Card sx={{ paddingBottom: 0 }}>
         <CardContent sx={{ paddingBottom: '0px !important' }}>
+
           <Grid
             container
             padding={0}
@@ -162,6 +166,7 @@ function Profile() {
             </Grid>
           </Grid>
           <Box sx={{ borderBottom: 1, borderColor: 'divider', marginTop: 4 }}>
+
             <Tabs
               value={value}
               onChange={handleChange}
@@ -292,7 +297,7 @@ function Profile() {
       </Box>
       {/* tab 3 */}
     </Container>
-  );
+  )
 }
 
-export default Profile;
+export default Profile
