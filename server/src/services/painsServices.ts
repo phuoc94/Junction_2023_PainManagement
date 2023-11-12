@@ -1,7 +1,7 @@
 import PainRepo from '../models/painModel.js'
 
 async function findAll() {
-  const pains = await PainRepo.find().exec()
+  const pains = await PainRepo.find().populate("approaches").exec()
 
   return pains
 }
@@ -20,9 +20,6 @@ async function findById (id: string) {
   } catch (err) {
     return null;
   }
-
-
- 
 }
 
 export default {
