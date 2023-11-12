@@ -1,20 +1,18 @@
-import axios from "axios";
+import axiosInstance from "../utils/AxiosInstance";
 
-const baseUrl = "http://localhost:3000/api/v1/achievements";
+const baseUrl = "/achievements";
 
 type GetAllAchievementsResponse = {
-  _id: string,
-  name: string,
-  description: string,
-  img_url: string,
+  _id: string;
+  name: string;
+  description: string;
+  img_url: string;
 }[];
 
 const getAllAchievements = async () => {
-  const { data } = await axios.get<GetAllAchievementsResponse>(baseUrl);
+  const { data } = await axiosInstance.get<GetAllAchievementsResponse>(baseUrl);
   console.log(data);
   return data;
 };
 
-export {
-  getAllAchievements,
-};
+export { getAllAchievements };

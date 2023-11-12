@@ -1,9 +1,12 @@
 import {
+  Alert,
   Avatar,
   Box,
   Button,
   Card,
   CardContent,
+  CardMedia,
+  Chip,
   Container,
   Grid,
   IconButton,
@@ -11,21 +14,48 @@ import {
   Tabs,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
-import ProfileEditModal from "../components/ProfileEditModal";
+import React, { useState, useEffect } from "react";
+import { AxiosError } from "axios";
+import { showApiErrorToastr } from "../utils/errorHandler";
+import { getMyAchievements, getMyApproaches } from "../services/userService";
+import { GetMyApproaches } from "../@types/approaches";
+import { useGlobalContext } from "../context/GlobalContext";
+import { GetMyAchievements } from "../@types/achievements";
 
 function Profile() {
+  const { user } = useGlobalContext();
   // tabs
   const [value, setValue] = useState(0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
+  const [achievements, setAchievements] = useState<GetMyAchievements>([]);
+  const [approaches, setApproaches] = useState<GetMyApproaches>([]);
+
   // modal
   const [isOpen, setIsOpen] = useState(false);
 
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    try {
+      const [achievementsData, approachesData] = await Promise.all([
+        getMyAchievements(),
+        getMyApproaches(),
+      ]);
+      setAchievements(achievementsData);
+      setApproaches(approachesData);
+    } catch (e) {
+      const error = e as AxiosError;
+      showApiErrorToastr(error);
+    }
+  };
+
   return (
-    <Container>
+    <Container sx={{ marginTop: 4 }}>
       <Card sx={{ paddingBottom: 0 }}>
         <CardContent sx={{ paddingBottom: "0px !important" }}>
           <Grid container padding={0}>
@@ -37,21 +67,13 @@ function Profile() {
                   </IconButton>
                 </Grid>
                 <Grid md={8} sm={6}>
-                  <Typography variant="h5">Full Name</Typography>
+                  <Typography variant="h5">{user.name}</Typography>
                   <Typography variant="caption" gutterBottom>
-                    email@mail.com
+                    {user.email}
                   </Typography>
                   <Typography variant="body1" gutterBottom>
                     Member ID: 54747474
                   </Typography>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    onClick={() => setIsOpen(true)}
-                  >
-                    Edit Profile
-                  </Button>
-                  <ProfileEditModal isOpen={isOpen} setIsOpen={setIsOpen} />
                 </Grid>
               </Grid>
             </Grid>
@@ -88,9 +110,8 @@ function Profile() {
           </Grid>
           <Box sx={{ borderBottom: 1, borderColor: "divider", marginTop: 4 }}>
             <Tabs value={value} onChange={handleChange}>
-              <Tab label={"History"} />
               <Tab label={"Achievements"} />
-              <Tab label={"Something"} />
+              <Tab label={"Approaches"} />
             </Tabs>
           </Box>
         </CardContent>
@@ -103,9 +124,42 @@ function Profile() {
         hidden={value !== 0}
         sx={{ marginTop: 4 }}
       >
-        <Card>
-          <CardContent>Tab 1 content here</CardContent>
-        </Card>
+        {achievements.length ? (
+          <Grid container rowSpacing={4} columnSpacing={4}>
+            {achievements.map((achievement) => {
+              return (
+                <Grid item sm={12} md={6} key={achievement._id}>
+                  <Card sx={{ display: "flex" }}>
+                    <CardMedia
+                      component="img"
+                      sx={{ width: 151 }}
+                      image={achievement.img_url}
+                      alt={achievement.name}
+                    />
+                    <Box sx={{ display: "flex", flexDirection: "column" }}>
+                      <CardContent sx={{ flex: "1 0 auto" }}>
+                        <Typography component="div" variant="h5">
+                          {achievement.name}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          component="div"
+                        >
+                          {achievement.description}
+                        </Typography>
+                      </CardContent>
+                    </Box>
+                  </Card>
+                </Grid>
+              );
+            })}
+          </Grid>
+        ) : (
+          <Alert severity="error">
+            No achievements found! Your achievements appears here.
+          </Alert>
+        )}
       </Box>
       {/* tab 2 */}
       <Box
@@ -114,21 +168,46 @@ function Profile() {
         hidden={value !== 1}
         sx={{ marginTop: 4 }}
       >
-        <Card>
-          <CardContent>Tab 2 content here</CardContent>
-        </Card>
+        {approaches.length ? (
+          <Grid container rowSpacing={4} columnSpacing={4}>
+            {approaches.map((approache) => {
+              return (
+                <Grid item sm={12} md={6} key={approache._id}>
+                  <Card sx={{ display: "flex" }}>
+                    <CardMedia
+                      component="img"
+                      sx={{ width: 151 }}
+                      image={approache.img_url}
+                      alt={approache.name}
+                    />
+                    <Box sx={{ display: "flex", flexDirection: "column" }}>
+                      <CardContent sx={{ flex: "1 0 auto" }}>
+                        <Typography component="div" variant="h5">
+                          {approache.name}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          component="div"
+                          gutterBottom
+                        >
+                          {approache.description}
+                        </Typography>
+                        <Chip label={approache.status} size="small" />
+                      </CardContent>
+                    </Box>
+                  </Card>
+                </Grid>
+              );
+            })}
+          </Grid>
+        ) : (
+          <Alert severity="error">
+            No approaches found! Your approaches appears here.
+          </Alert>
+        )}
       </Box>
       {/* tab 3 */}
-      <Box
-        role="tabpanel"
-        component={"div"}
-        hidden={value !== 2}
-        sx={{ marginTop: 4 }}
-      >
-        <Card>
-          <CardContent>Tab 3 content here</CardContent>
-        </Card>
-      </Box>
     </Container>
   );
 }

@@ -1,10 +1,15 @@
-import React from "react";
-import { Box, Grid, Typography, Card } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Box, Grid, Typography, Card, CardMedia } from "@mui/material";
 import DetailImg from "../images/detail.png";
 import Teq1Img from "../images/teq1.png";
 import Teq2Img from "../images/teq2.png";
 import Teq3Img from "../images/teq3.png";
 import Teq4Img from "../images/teq4.png";
+import { useParams } from "react-router-dom";
+import { Pain, SingleCategoryResponse } from "../@types/category";
+import { getSingleCategory } from "../services/categoriesService";
+import { showApiErrorToastr } from "../utils/errorHandler";
+import { AxiosError } from "axios";
 
 const teqs = [
   {
@@ -38,31 +43,51 @@ const teqs = [
 ];
 
 function Detail() {
+  const { categoryId, painId } = useParams();
+  const [category, setCategory] = useState<SingleCategoryResponse>();
+  const [pain, setPain] = useState<Pain>();
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    try {
+      const data = await getSingleCategory(String(categoryId));
+      setCategory(data);
+      const foundPain = data.pains.find((p) => p._id === painId);
+      setPain(foundPain);
+    } catch (e) {
+      const error = e as AxiosError;
+      showApiErrorToastr(error);
+    }
+  };
+
   return (
     <Box>
       <Box padding={"2rem"}>
         <Typography variant="h3" fontWeight={"600"}>
-          Low Back Pain
+          {pain?.name}
         </Typography>
-        <Typography variant="body1">
-          In this video, Dr. Andrea Furlan explains what non-specific low back
-          pain is, the difference between acute and chronic low back pain, and
-          how to prevent episodes of low back pain. She will also discuss the
-          different therapies through exercise, manual therapy, medications,
-          relaxation, lifestyle modifications and nutrition.
-        </Typography>
+        <Typography variant="body1">{pain?.description}</Typography>
       </Box>
 
       <Grid container sx={{ marginTop: "2rem" }} spacing={4}>
         <Grid item md={8}>
           <Card sx={{ padding: "2rem" }}>
-            <img src={DetailImg} />
+            <CardMedia
+              component="img"
+              sx={{ width: "50%", margin: "auto" }}
+              image={pain?.img_url}
+              alt={pain?.name}
+            />
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
                 gap: "2rem",
                 marginBottom: "1rem",
+                marginTop: "1rem",
               }}
             >
               <Box
@@ -72,25 +97,7 @@ function Detail() {
                   borderRadius: "100%",
                 }}
               ></Box>
-              <Typography variant="body1">
-                {" "}
-                Lie on your back with knees bent and feet flat on the floor.
-              </Typography>
-            </Box>
-            <Box sx={{ display: "flex", alignItems: "center", gap: "2rem" }}>
-              <Box
-                sx={{
-                  padding: "0.3rem",
-                  backgroundColor: "#EB459F",
-                  borderRadius: "100%",
-                }}
-              ></Box>
-              <Typography variant="body1">
-                {" "}
-                Tighten your abdominal muscles and tilt your pelvis, pressing
-                your lower back into the floor. Hold for a few seconds, then
-                release. Repeat several times.
-              </Typography>
+              <Typography variant="body1">{pain?.description}</Typography>
             </Box>
           </Card>
         </Grid>
@@ -98,10 +105,10 @@ function Detail() {
           <Typography variant="h3" fontWeight={"600"} marginBottom={"1rem"}>
             Basic Techniques
           </Typography>
-          {teqs.map((teq, index) => {
+          {pain?.approaches.map((approach) => {
             return (
               <Card
-                key={index}
+                key={approach._id}
                 sx={{
                   display: "flex",
                   justifyContent: "center",
@@ -109,10 +116,10 @@ function Detail() {
                   padding: "2rem",
                   borderRadius: "1rem",
                   marginBottom: "1rem",
-                  backgroundColor: `${
-                    teq.active ? "secondary.main" : "#f4f4f4"
-                  }`,
-                  color: `${teq.active ? "#fff" : "#000"}`,
+                  // backgroundColor: `${
+                  //   teq.active ? "secondary.main" : "#f4f4f4"
+                  // }`,
+                  // color: `${teq.active ? "#fff" : "#000"}`,
                 }}
               >
                 <Box
@@ -123,10 +130,12 @@ function Detail() {
                     padding: "1rem",
                   }}
                 >
-                  <Typography variant="h5">{teq.title}</Typography>
-                  <Typography variant="body2">{teq.detail}</Typography>
+                  <Typography variant="h5">{approach.name}</Typography>
+                  <Typography variant="body2">
+                    {approach.description}
+                  </Typography>
                 </Box>
-                <img src={teq.image} />
+                <img src={approach.img_url} />
               </Card>
             );
           })}

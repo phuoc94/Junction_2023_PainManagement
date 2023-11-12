@@ -10,27 +10,34 @@ import {
   Checkbox,
   Card,
 } from "@mui/material";
-import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { signUp } from "../services/authService";
+import { AxiosError } from "axios";
+import { showApiErrorToastr, showCustomToastr } from "../utils/errorHandler";
+import { useNavigate } from "react-router-dom";
 
-// type Inputs = {
-//   username: string;
-//   email: string;
-//   password: string;
-// };
+type Inputs = {
+  name: string;
+  email: string;
+  password: string;
+};
 function SignUp() {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
-  } = useForm();
+  } = useForm<Inputs>();
 
-  const signUpForm: SubmitHandler<FieldValues> = async (values) => {
+  const navigate = useNavigate();
+
+  const signUpForm: SubmitHandler<Inputs> = async (values) => {
     try {
-      console.log(values);
-      reset();
-    } catch (error) {
-      console.log(error);
+      await signUp(values);
+      showCustomToastr("Registration success!", "success");
+      navigate("/login");
+    } catch (e) {
+      const error = e as AxiosError;
+      showApiErrorToastr(error);
     }
   };
   return (
@@ -52,25 +59,23 @@ function SignUp() {
         >
           <Typography variant="h3">Create An Account</Typography>
           <TextField
-            id="outlined-multiline-flexible"
             label="Name"
             maxRows={4}
             fullWidth
             placeholder="Enter Username"
-            {...register("username", {
+            {...register("name", {
               required: {
                 value: true,
-                message: "username is required",
+                message: "name is required",
               },
             })}
           />
-          {errors.username && (
+          {errors.name && (
             <Typography variant="caption" color={"red"}>
-              "error"
+              {errors.name?.message}
             </Typography>
           )}
           <TextField
-            id="outlined-multiline-flexible"
             label="Email"
             maxRows={4}
             fullWidth
@@ -84,12 +89,12 @@ function SignUp() {
           />
           {errors.email && (
             <Typography variant="caption" color={"red"}>
-              "error"
+              {errors.name?.message}
             </Typography>
           )}
           <TextField
-            id="outlined-multiline-flexible"
             label="Password"
+            type="password"
             maxRows={4}
             fullWidth
             placeholder="Enter Password"
@@ -102,7 +107,7 @@ function SignUp() {
           />
           {errors.password && (
             <Typography variant="caption" color={"red"}>
-              "error"
+              {errors.name?.message}
             </Typography>
           )}
           <FormGroup>

@@ -1,5 +1,15 @@
-import React from "react";
-import { Box, Typography, Button, Grid, Card, TextField } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Typography,
+  Button,
+  Grid,
+  Card,
+  TextField,
+  CardActionArea,
+  CardMedia,
+  CardContent,
+} from "@mui/material";
 import HeroImg from "../images/hero.png";
 import PainImg from "../images/We-Fix-Pain-Fast-R 1.png";
 import Company1Img from "../images/company1.png";
@@ -11,29 +21,13 @@ import Med1Img from "../images/medical1.png";
 import Med2Img from "../images/medical2.png";
 import Med3Img from "../images/medical3.png";
 import WhyImg from "../images/why1.png";
-import Resource1Img from "../images/resource1.jpg";
-import Resource2Img from "../images/resource2.jpg";
-import Resource3Img from "../images/resource3.jpg";
-import Resource4Img from "../images/resource4.jpg";
 
-const resources = [
-  {
-    name: "Relaxation",
-    image: Resource1Img,
-  },
-  {
-    name: "LifeStyle",
-    image: Resource2Img,
-  },
-  {
-    name: "Physical Activity",
-    image: Resource3Img,
-  },
-  {
-    name: "Partner in your Care",
-    image: Resource4Img,
-  },
-];
+import { Link, useNavigate } from "react-router-dom";
+import { GetAllApproachesResponse } from "../@types/approaches";
+import { AxiosError } from "axios";
+import { showApiErrorToastr } from "../utils/errorHandler";
+import { getCategories } from "../services/categoriesService";
+import { CategoriesResponse } from "../@types/category";
 
 const companies = [
   Company1Img,
@@ -61,12 +55,26 @@ const services = [
 ];
 
 function Home() {
+  const navigate = useNavigate();
+  const [categories, setCategories] = useState<CategoriesResponse>([]);
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    try {
+      const data = await getCategories();
+      setCategories(data);
+    } catch (e) {
+      const error = e as AxiosError;
+      showApiErrorToastr(error);
+    }
+  };
+
   return (
     <Box>
       <Box
         sx={{
-          backgroundColor: "#f5f5f5f5",
-          height: "100vh",
           padding: "0rem 2rem",
         }}
       >
@@ -134,49 +142,20 @@ function Home() {
                   <Typography>
                     Same Great Care. Convenient Remote Access.
                   </Typography>
-                  <Button
-                    variant="contained"
-                    fullWidth
-                    sx={{
-                      bgcolor: "secondary.main",
-                      fontWeight: "600",
-                      padding: "0.5rem",
-                      fontSize: "18px",
-                    }}
-                  >
-                    VIEW PLANS
-                  </Button>
-                </Box>
-                <Box
-                  bgcolor={"primary.main"}
-                  color={"white"}
-                  padding={"1rem"}
-                  borderRadius={"0.25rem"}
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    textAlign: "center",
-                    gap: "1rem",
-                  }}
-                >
-                  <Typography variant="h5" sx={{ fontWeight: "700" }}>
-                    EXPLORE VIRTUAL CARE
-                  </Typography>
-                  <Typography>
-                    Same Great Care. Convenient Remote Access.
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    fullWidth
-                    sx={{
-                      bgcolor: "secondary.main",
-                      fontWeight: "600",
-                      padding: "0.5rem",
-                      fontSize: "18px",
-                    }}
-                  >
-                    VIEW PLANS
-                  </Button>
+                  <Link to="/questionary">
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      sx={{
+                        bgcolor: "secondary.main",
+                        fontWeight: "600",
+                        padding: "0.5rem",
+                        fontSize: "18px",
+                      }}
+                    >
+                      VIEW PLANS
+                    </Button>
+                  </Link>
                 </Box>
               </Box>
             </Box>
@@ -214,7 +193,7 @@ function Home() {
         })}
       </Grid>
       <Box sx={{ margin: "2rem 0rem", padding: "2rem" }}>
-        <Grid container sx={{ padding: "2rem 4rem" }}>
+        <Grid container sx={{ padding: "2rem 4rem 0rem 4rem" }}>
           <Grid item xs={4}>
             <Typography variant="h4" fontWeight={"700"}>
               Our Activity
@@ -304,7 +283,7 @@ function Home() {
         <Grid container sx={{ padding: "2rem 0rem" }}>
           <Grid item xs={6}>
             <Typography variant="h4" fontWeight={"700"}>
-              Popular Resources
+              Popular Categories
             </Typography>
             <Typography
               variant="body1"
@@ -319,40 +298,30 @@ function Home() {
           </Grid>
           <Grid xs={6}></Grid>
         </Grid>
-        <Grid
-          container
-          gap={"2rem"}
-          marginTop={"2rem"}
-          marginBottom={"2rem"}
-          justifyContent={"center"}
-          alignItems={"center"}
-        >
-          {resources.map((resource, index) => {
+        <Grid container marginBottom={"2rem"} rowSpacing={4} columnSpacing={2}>
+          {categories.map((category) => {
             return (
-              <Grid
-                item
-                md={2}
-                key={index}
-                textAlign={"center"}
-                sx={{
-                  backgroundColor: "#E6F6FE",
-
-                  borderRadius: "0.5rem",
-                }}
-              >
-                <img
-                  src={resource.image}
-                  height={"200px"}
-                  width={"100%"}
-                  style={{
-                    borderRadius: "0.5rem",
-                    borderBottomRightRadius: "0px",
-                    borderBottomLeftRadius: "0px",
-                  }}
-                ></img>
-                <Typography variant="h6" textAlign={"center"}>
-                  {resource.name}{" "}
-                </Typography>
+              <Grid item lg={3} md={4} sm={2} key={category._id}>
+                <Card sx={{ maxWidth: 345 }}>
+                  <CardActionArea
+                    onClick={() => navigate(`/recommendation/${category._id}`)}
+                  >
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image={category.img_url}
+                      alt={category.name}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {category.name}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {category.description}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
               </Grid>
             );
           })}
