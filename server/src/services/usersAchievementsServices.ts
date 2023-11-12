@@ -1,13 +1,12 @@
-import { ObjectId } from 'mongoose';
-import userAchievementModel from '../models/userAchievementModel.js'
-import userModel from '../models/userModel.js';
+import { type ObjectId } from 'mongoose'
+
+import UserAchievementModel from '../models/userAchievementModel.js'
 import { type Achievement } from '../types/Achievement.js'
 
 async function findAllAchievementsByUser(
   userId: string
 ): Promise<Achievement[]> {
-  const achievements = await userAchievementModel
-    .find({ userId })
+  const achievements = await UserAchievementModel.find({ userId })
     .populate({
       path: 'achievementId',
       select: '-__v',
@@ -18,15 +17,18 @@ async function findAllAchievementsByUser(
   return transformedAchievements as unknown as Achievement[]
 }
 
-async function createAchievementByUser (userId: ObjectId, achievementId : Uint8Array) {
-  const userAchievement = new userAchievementModel({
-    userId: userId,
-    achievementId: achievementId
+async function createAchievementByUser(
+  userId: ObjectId,
+  achievementId: Uint8Array
+) {
+  const userAchievement = new UserAchievementModel({
+    userId,
+    achievementId,
   })
   await userAchievement.save()
 }
 
 export default {
   findAllAchievementsByUser,
-  createAchievementByUser
+  createAchievementByUser,
 }

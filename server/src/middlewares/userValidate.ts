@@ -1,14 +1,11 @@
 import type { NextFunction, Request, Response } from 'express'
 import type { ZodError } from 'zod'
-import jwt, { JwtPayload, decode } from "jsonwebtoken"
-import { userCreateSchema, userUpdateSchema } from '../schemas/usersSchema.js'
-import { ApiError } from '../utils/ApiError.js'
+
 import userModel from '../models/userModel.js'
-import { decodeType } from '../types/response/DecodeType.js'
-import { User } from '../types/User.js'
+import { userCreateSchema, userUpdateSchema } from '../schemas/usersSchema.js'
+import { type User } from '../types/User.js'
+import { ApiError } from '../utils/ApiError.js'
 import decodeTokenToGetId from '../utils/DecodeTokenToGetId.js'
-
-
 
 export async function validateCreateUser(
   req: Request,
@@ -64,14 +61,18 @@ export async function validateEmailOrRequestNotEmptyInRegister(
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   // Test the email against the regex
   const email = req.body.email
-  const name = req.body.name;
-  const password = req.body.password;
+  const name = req.body.name
+  const password = req.body.password
 
   if (email === undefined || password === undefined || name === undefined) {
-    next(ApiError.internal("Invalid email or password or name!"))
+    next(ApiError.internal('Invalid email or password or name!'))
   }
   if (email?.length === 0 || password?.length === 0 || name?.length === 0) {
-    next(ApiError.badRequest('Email or password or name is not given! Please enter again!'))
+    next(
+      ApiError.badRequest(
+        'Email or password or name is not given! Please enter again!'
+      )
+    )
   }
 
   if (!emailRegex.test(email)) {
@@ -86,36 +87,37 @@ export async function validateEmailAndPasswordExists(
   _: Response,
   next: NextFunction
 ): Promise<void> {
-  const email = req.body.email;
-  const password = req.body.password;
+  const email = req.body.email
+  const password = req.body.password
 
   if (email === undefined || password === undefined) {
-    next(ApiError.internal("Invalid email or password!"))
+    next(ApiError.internal('Invalid email or password!'))
   }
 
   if (email?.length === 0 || password?.length === 0) {
-    next(ApiError.badRequest('Email or password is not given! Please enter again!'))
+    next(
+      ApiError.badRequest('Email or password is not given! Please enter again!')
+    )
   }
 
   next()
 }
 
-export async function verifyTokenToAuthorizeAdmin (
+export async function verifyTokenToAuthorizeAdmin(
   req: Request,
   _: Response,
   next: NextFunction
 ): Promise<void> {
-  let token;
+  let token
 
   if (
-    req.headers.authorization &&
+    req.headers.authorization != null &&
     req.headers.authorization.startsWith('Bearer')
   ) {
     try {
+      token = req.headers.authorization.split(' ')[1]
 
-      token = req.headers.authorization.split(" ")[1];
-
-      let decoded = decodeTokenToGetId(token);
+      const decoded = decodeTokenToGetId(token)
 
       const user = (await userModel
         .findById(decoded?.id)
@@ -124,42 +126,50 @@ export async function verifyTokenToAuthorizeAdmin (
       const role = user?.role
 
       if (role === null) {
-        next(ApiError.unauthorized('You provided an invalid token! You are basically not authorized to access any routes!'))
-      };
+        next(
+          ApiError.unauthorized(
+            'You provided an invalid token! You are basically not authorized to access any routes!'
+          )
+        )
+      }
 
       if (role !== 'admin') {
         next(
           ApiError.unauthorized(
             'You are not an admin! You cannot be allowed to access this!'
-          ))
-      };
+          )
+        )
+      }
 
-      req.params.userId = user?.id;
+      req.params.userId = user?.id
       next()
     } catch (error) {
-      next(ApiError.unauthorized("No API token is provided or there is something wrong with token to decode!"));
+      next(
+        ApiError.unauthorized(
+          'No API token is provided or there is something wrong with token to decode!'
+        )
+      )
     }
-    } else {
-      next(ApiError.unauthorized("No API token is provided!"));
-    }
+  } else {
+    next(ApiError.unauthorized('No API token is provided!'))
+  }
 }
 
-export async function verifyTokenToAuthorizeUser (
+export async function verifyTokenToAuthorizeUser(
   req: Request,
   _: Response,
   next: NextFunction
 ): Promise<void> {
-  let token;
+  let token
 
   if (
-    req.headers.authorization &&
+    req.headers.authorization != null &&
     req.headers.authorization.startsWith('Bearer')
   ) {
     try {
+      token = req.headers.authorization.split(' ')[1]
 
-      token = req.headers.authorization.split(" ")[1];
-
-      let decoded = decodeTokenToGetId(token);
+      const decoded = decodeTokenToGetId(token)
 
       const user = (await userModel
         .findById(decoded?.id)
@@ -168,15 +178,22 @@ export async function verifyTokenToAuthorizeUser (
       const role = user?.role
 
       if (role === null) {
-        next(ApiError.unauthorized('You provided an invalid token! You are basically not authorized to access any routes!'))
-      };
-      req.params.userId = user?.id;
+        next(
+          ApiError.unauthorized(
+            'You provided an invalid token! You are basically not authorized to access any routes!'
+          )
+        )
+      }
+      req.params.userId = user?.id
       next()
     } catch (error) {
-      next(ApiError.unauthorized("No API token is provided or there is something wrong with token to decode!"));
+      next(
+        ApiError.unauthorized(
+          'No API token is provided or there is something wrong with token to decode!'
+        )
+      )
     }
-    } else {
-      next(ApiError.unauthorized("No API token is provided!"));
-    }
+  } else {
+    next(ApiError.unauthorized('No API token is provided!'))
+  }
 }
-
