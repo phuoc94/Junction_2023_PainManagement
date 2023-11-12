@@ -1,10 +1,3 @@
-// icons
-import {
-  AccountCircle,
-  Category,
-  Dashboard,
-  ShoppingBag,
-} from '@mui/icons-material'
 // MUI
 import {
   Avatar,
@@ -14,18 +7,30 @@ import {
   List,
   Typography,
   useMediaQuery,
-} from '@mui/material'
+} from '@mui/material';
+
+// icons
+import {
+  AccountCircle,
+  Category,
+  Dashboard,
+  ShoppingBag,
+} from '@mui/icons-material';
+
+// components
+import SideBarItem from './SideBarItem';
 
 // types
-import { SidebarItem } from '../../../@types/sidebar'
-import { useGlobalContext } from '../../../context/GlobalContext'
+import { SidebarItem } from '../../../@types/sidebar';
+
 // context
-import { useThemeContext } from '../../../context/ThemeContext'
-import LogoImg from '../../../images/logo.png'
+import { useThemeContext } from '../../../context/useThemeContext';
+
 // utils
-import { ADMIN_SIDEBAR_WIDTH } from '../../../utils/constants'
-// components
-import SideBarItem from './SideBarItem'
+import { ADMIN_SIDEBAR_WIDTH } from '../../../utils/constants';
+import { useGlobalContext } from '../../../context/useGlobalContext';
+
+import LogoImg from '../../../images/logo.png';
 
 // sidebar menus
 const sidebarItems: SidebarItem[] = [
@@ -84,8 +89,15 @@ function SideBar({ isOpen, handleClose }: SideBarProps) {
           gap: '0.5rem',
         }}
       >
-        <img src={LogoImg} alt="logo" width={32} />
-        <Typography variant="h6" color={'primary'}>
+        <img
+          src={LogoImg}
+          alt="logo"
+          width={32}
+        />
+        <Typography
+          variant="h6"
+          color={'primary'}
+        >
           Chronic
         </Typography>
       </Box>
@@ -101,14 +113,23 @@ function SideBar({ isOpen, handleClose }: SideBarProps) {
               backgroundColor: 'action.selected',
             }}
           >
-            <Avatar src={user?.avatar} alt="photoURL" />
+            <Avatar
+              src={user?.avatar}
+              alt="photoURL"
+            />
 
             <Box sx={{ ml: 2 }}>
-              <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
+              <Typography
+                variant="subtitle2"
+                sx={{ color: 'text.primary' }}
+              >
                 {user?.name}
               </Typography>
 
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+              <Typography
+                variant="body2"
+                sx={{ color: 'text.secondary' }}
+              >
                 {user?.role}
               </Typography>
             </Box>
@@ -117,9 +138,15 @@ function SideBar({ isOpen, handleClose }: SideBarProps) {
       </Box>
 
       <Box>
-        <List disablePadding sx={{ p: 1 }}>
+        <List
+          disablePadding
+          sx={{ p: 1 }}
+        >
           {sidebarItems.map((item) => (
-            <SideBarItem key={item.path} item={item} />
+            <SideBarItem
+              key={item.path}
+              item={item}
+            />
           ))}
         </List>
       </Box>
@@ -127,7 +154,7 @@ function SideBar({ isOpen, handleClose }: SideBarProps) {
     </Box>
   )
 
-  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'))
+  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
 
   return (
     <Box

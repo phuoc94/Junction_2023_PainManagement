@@ -1,11 +1,12 @@
-import FacebookIcon from '@mui/icons-material/Facebook'
-import InstagramIcon from '@mui/icons-material/Instagram'
-// icons
-import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
-import TwitterIcon from '@mui/icons-material/Twitter'
-import YouTubeIcon from '@mui/icons-material/YouTube'
 // MUI
-import { Box, Grid, IconButton, Typography } from '@mui/material'
+import { Box, Grid, IconButton, Typography } from '@mui/material';
+
+// icons
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import YouTubeIcon from '@mui/icons-material/YouTube';
 
 function Footer() {
   return (
@@ -20,15 +21,28 @@ function Footer() {
         padding={'2rem 2rem'}
         marginTop={'4rem'}
       >
-        <Grid item xs={12} sm={12} md={6}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+        >
           <Grid
             container
             spacing={3}
             columns={12}
             justifyContent="space-between"
           >
-            <Grid item xs={12} sm={4} md={4}>
-              <Typography variant="h6" gutterBottom>
+            <Grid
+              item
+              xs={12}
+              sm={4}
+              md={4}
+            >
+              <Typography
+                variant="h6"
+                gutterBottom
+              >
                 Company
               </Typography>
               <Typography variant="body1">About Us</Typography>
@@ -36,16 +50,32 @@ function Footer() {
               <Typography variant="body1">Career</Typography>
               <Typography variant="body1">Press</Typography>
             </Grid>
-            <Grid item xs={12} sm={4} md={4}>
-              <Typography variant="h6" gutterBottom>
+            <Grid
+              item
+              xs={12}
+              sm={4}
+              md={4}
+            >
+              <Typography
+                variant="h6"
+                gutterBottom
+              >
                 Help & Support
               </Typography>
               <Typography variant="body1">Contact Us</Typography>
               <Typography variant="body1">Knowledge Center</Typography>
               <Typography variant="body1">FAQ</Typography>
             </Grid>
-            <Grid item xs={12} sm={4} md={4}>
-              <Typography variant="h6" gutterBottom>
+            <Grid
+              item
+              xs={12}
+              sm={4}
+              md={4}
+            >
+              <Typography
+                variant="h6"
+                gutterBottom
+              >
                 Legal
               </Typography>
               <Typography variant="body1">Terms & Conditions</Typography>
@@ -55,7 +85,12 @@ function Footer() {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={12} md={6}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+        >
           <Box
             sx={{
               display: 'flex',

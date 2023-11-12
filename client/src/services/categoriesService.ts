@@ -1,52 +1,18 @@
-import axios from 'axios'
+import { CategoriesResponse, SingleCategoryResponse } from "../@types/category";
+import axiosInstance from "../utils/AxiosInstance";
 
-const baseUrl = `${process.env.REACT_APP_API_URL}/pains-categories`
-
-// Types should be extracted to separate file
-type Base = {
-  _id: string
-  name: string
-  description: string
-  img_url: string
-}
-
-type Detail = Base
-
-type Achievement = Base
-
-type Approach = Base & {
-  details: Detail[]
-  achievements: Achievement
-}
-
-type SimplePain = Base & {
-  approaches: string[]
-}
-
-type Category = Base & {
-  pains: SimplePain[]
-}
-
-type Pain = Base & {
-  approaches: Approach[]
-}
-
-type SingleCategoryResponse = Base & {
-  pains: Pain[]
-}
-
-type CategoriesResponse = Category[]
+const baseUrl = "/pains-categories";
 
 const getCategories = async () => {
-  const { data } = await axios.get<CategoriesResponse>(baseUrl)
-  console.log(data)
-}
+  const { data } = await axiosInstance.get<CategoriesResponse>(baseUrl);
+  return data;
+};
 
 const getSingleCategory = async (categoryId: string) => {
-  const { data } = await axios.get<SingleCategoryResponse>(
+  const { data } = await axiosInstance.get<SingleCategoryResponse>(
     `${baseUrl}/${categoryId}`
-  )
-  console.log(data) // You can check the data structure, remember to remove this line
-}
+  );
+  return data;
+};
 
-export { getCategories, getSingleCategory }
+export { getCategories, getSingleCategory };

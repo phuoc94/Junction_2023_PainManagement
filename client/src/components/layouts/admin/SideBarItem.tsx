@@ -1,9 +1,8 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom';
 
 // MUI
-import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
-
-import { SidebarItem } from '../../../@types/sidebar'
+import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { SidebarItem } from '../../../@types/sidebar';
 
 type SideBarItemProps = {
   item: SidebarItem
@@ -28,7 +27,10 @@ function SideBarItem({ item }: SideBarItemProps) {
       }}
     >
       <ListItemIcon>{item.icon}</ListItemIcon>
-      <ListItemText disableTypography primary={item.title} />
+      <ListItemText
+        disableTypography
+        primary={item.title}
+      />
     </ListItemButton>
   )
 }

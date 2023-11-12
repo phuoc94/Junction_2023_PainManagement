@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
 
-import { GlobalContextStates } from '../@types/global'
-import AppLoader from '../components/AppLoader'
+import React, { createContext, useEffect, useState } from 'react';
+import AppLoader from '../components/AppLoader';
+import { GlobalContextStates } from '../@types/global';
 
 // initial state
 const initialState: GlobalContextStates = {
@@ -9,15 +9,15 @@ const initialState: GlobalContextStates = {
   logout: () => {},
 }
 
-const GlobalContext = createContext(initialState)
+export const GlobalContext = createContext(initialState);
 
 function GlobalContextProvider({ children }: React.PropsWithChildren) {
   const [user] = useState()
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-      fetchCurrentUser()
+    if (localStorage.getItem('tokenId')) {
+      fetchCurrentUser();
     } else {
       setLoading(false)
     }
@@ -25,24 +25,33 @@ function GlobalContextProvider({ children }: React.PropsWithChildren) {
 
   const fetchCurrentUser = async () => {
     try {
-      //   const response = await axios.get("/user/get/current", {
-      //     headers: {
-      //       authorization: "Bearer " + localStorage.getItem("token"),
-      //     },
-      //   });
-      //   setUser(response.data);
-      setLoading(false)
+
+      // TODO:: in prod, we may need to get user from the server
+      // const response = await axios.get("/user/get/current", {
+      //   headers: {
+      //     authorization: "Bearer " + localStorage.getItem("token"),
+      //   },
+      // });
+      const localUser = localStorage.getItem('user');
+      if (localUser) {
+        setUser(JSON.parse(localUser));
+      }
+      setLoading(false);
     } catch (error) {
       logout()
     }
   }
 
   const logout = () => {
-    localStorage.removeItem('token')
-    window.location.href = '/login'
-  }
 
-  if (loading) return <AppLoader />
+    localStorage.removeItem('tokenId');
+    localStorage.removeItem('user');
+    window.location.href = '/login';
+  };
+
+  if (loading) return <AppLoader />;
+
+
   return (
     <GlobalContext.Provider value={{ user, logout }}>
       {children}
@@ -50,6 +59,4 @@ function GlobalContextProvider({ children }: React.PropsWithChildren) {
   )
 }
 
-export const useGlobalContext = () => useContext(GlobalContext)
-
-export default GlobalContextProvider
+export default GlobalContextProvider;
