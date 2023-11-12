@@ -14,7 +14,13 @@ import usersRoutes from './routes/usersRoutes.js'
 const app = express()
 
 // Middleware
-app.options('*', cors())
+app.use(
+  cors({
+    origin: 'https://junction-2023-pain-management.vercel.app/', // Replace with the client's URL
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+)
 
 app.use(express.json())
 app.use(loggingMiddleware)
