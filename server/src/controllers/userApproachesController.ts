@@ -34,7 +34,7 @@ export async function createUserApproach(
 
     const newUserApproach = await UsersServices.createUserApproach(
       userId,
-      approachId
+      approach?.id
     )
 
     if (newUserApproach === null) {
@@ -77,11 +77,13 @@ export async function updateStatusForUserApproach(
   try {
     let userApproach = await userApproachesService.findById(userApproachId)
 
-    if (userApproach?.status === 'not_started') {
-      userApproach =
-        await userApproachesService.findByIdAndUpdateForStatusInProcess(
-          userApproachId
-        )
+    if (userApproach === null) {
+      next(ApiError.notFound("There is no user approach id given"));
+      return;
+    } 
+
+    if (userApproach?.status === "not_started") {
+      userApproach = await userApproachesService.findByIdAndUpdateForStatusInProcess(userApproachId);
 
       res.status(200).json(userApproach)
     } else if (userApproach?.status === 'in_process') {
