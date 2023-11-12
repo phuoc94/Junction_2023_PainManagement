@@ -1,6 +1,6 @@
 import axiosInstance from '../utils/AxiosInstance'
 
-const baseUrl = `${process.env.REACT_APP_API_URL}/achievements`
+const baseUrl = "/achievements"
 type GetAllAchievementsResponse = {
   _id: string
   name: string
