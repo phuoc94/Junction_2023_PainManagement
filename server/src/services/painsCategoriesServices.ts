@@ -3,8 +3,14 @@ import mongoose from 'mongoose'
 import PainCategoryRepo from '../models/painCategoryModel.js'
 
 async function findAll() {
-  const painsCategories = await PainCategoryRepo.find().populate('pains').exec()
-  return painsCategories
+  const painsCategories = await PainCategoryRepo.find().populate({
+    path: "pains",
+    model: "Pain",
+    populate: "approaches"
+  }).exec()
+
+  return painsCategories;
+
 }
 
 async function findById(categoryId: string) {
@@ -14,7 +20,7 @@ async function findById(categoryId: string) {
     .populate({
       path: 'pains',
       populate: {
-        path: 'approachs',
+        path: 'approaches',
         model: 'Approach',
         populate: {
           path: 'achievement',
