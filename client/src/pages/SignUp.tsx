@@ -1,3 +1,7 @@
+import { AxiosError } from 'axios'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+
 import {
   Box,
   Button,
@@ -6,37 +10,35 @@ import {
   Container,
   FormControlLabel,
   FormGroup,
-  Checkbox,
-  Card,
-} from '@mui/material';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { signUp } from '../services/authService';
-import { AxiosError } from 'axios';
-import { showApiErrorToastr, showCustomToastr } from '../utils/errorHandler';
-import { useNavigate } from 'react-router-dom';
+  TextField,
+  Typography,
+} from '@mui/material'
+
+import { signUp } from '../services/authService'
+import { showApiErrorToastr, showCustomToastr } from '../utils/errorHandler'
 
 type Inputs = {
-  name: string;
-  email: string;
-  password: string;
-};
+  name: string
+  email: string
+  password: string
+}
 function SignUp() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<Inputs>()
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const signUpForm: SubmitHandler<Inputs> = async (values) => {
     try {
-      await signUp(values);
-      showCustomToastr('Registration success!', 'success');
-      navigate('/login');
+      await signUp(values)
+      showCustomToastr('Registration success!', 'success')
+      navigate('/login')
     } catch (e) {
-      const error = e as AxiosError;
-      showApiErrorToastr(error);
+      const error = e as AxiosError
+      showApiErrorToastr(error)
     }
   }
   return (
@@ -70,10 +72,7 @@ function SignUp() {
             })}
           />
           {errors.name && (
-            <Typography
-              variant="caption"
-              color={'red'}
-            >
+            <Typography variant="caption" color={'red'}>
               {errors.name?.message}
             </Typography>
           )}
@@ -90,10 +89,7 @@ function SignUp() {
             })}
           />
           {errors.email && (
-            <Typography
-              variant="caption"
-              color={'red'}
-            >
+            <Typography variant="caption" color={'red'}>
               {errors.name?.message}
             </Typography>
           )}
@@ -111,10 +107,7 @@ function SignUp() {
             })}
           />
           {errors.password && (
-            <Typography
-              variant="caption"
-              color={'red'}
-            >
+            <Typography variant="caption" color={'red'}>
               {errors.name?.message}
             </Typography>
           )}
@@ -124,11 +117,7 @@ function SignUp() {
               label="Label"
             />
           </FormGroup>
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{ marginTop: '1rem' }}
-          >
+          <Button type="submit" variant="contained" sx={{ marginTop: '1rem' }}>
             SignUp
           </Button>
         </Box>
